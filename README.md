@@ -14,6 +14,8 @@ Include within the <dependencies> section of your project's pom.xml file.
 </dependency>
 ```
 
+You can find releases here https://github.com/Lendistrydev/key-sdk/releases/
+
 ## Overview
 
 Key SDK provides following functionality :
