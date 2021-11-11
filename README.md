@@ -10,27 +10,20 @@ Include within the <dependencies> section of your project's pom.xml file.
 <dependency>
     <groupId>com.lendistry</groupId>
     <artifactId>key-sdk</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
 ## Overview
 
 Key SDK provides following functionality :
-
-- generate key pair and service key pair
-- register public key and get service key pair
-- signing and verification of signature
+- register public key
+- message signing and verification of signature
 - encryption and decryption
 
-### Key pairs
+### Key Management
 
-There are 4 keys pairs involved in flows:
-
-- private key 1 - merchant's private key (not saved on service side)
-- public key 1 - merchant's public key (shared with service)
-- private key 2 - service's private key (not shared with merchant, exists only on service)
-- public key 2 - service's public key (shared with merchant)
+Services Public Key is
 
 
 To get key pair merchant can :
