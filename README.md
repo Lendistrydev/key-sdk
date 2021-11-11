@@ -10,7 +10,7 @@ Include within the <dependencies> section of your project's pom.xml file.
 <dependency>
     <groupId>com.lendistry</groupId>
     <artifactId>key-sdk</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.1-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -20,22 +20,22 @@ You can find releases here https://github.com/Lendistrydev/key-sdk/releases/
 
 Key SDK provides following functionality :
 - message signing and verification of signature
-- encryption and decryption
+- encryption and decryption of data
 
 ### Key Management
 
-Services Public Key can be found here [lendistry-public-key.pem](https://github.com/Lendistrydev/key-sdk/blob/main/src/main/resources/lendistry-public-key.pem)
+Lendistry Public Key can be found here [lendistry-public-key.pem](https://github.com/Lendistrydev/key-sdk/blob/main/src/main/resources/lendistry-public-key.pem)
 
 To get key pair merchant can :
 
 **Generate merchant's key pair locally and send public key to lendistry via email**
 
-Generate RSA keys in command line (write keys in `private-key.pem` or use wh)
+Generate RSA keys in command line (write keys in `private-key.pem`)
 ```
 ~$ openssl genrsa -out private-key.pem 4096
 ```
 
-If you have keys in DER format, please convert it with `openssl` to PEM and then load keys as shown above
+If you have keys in DER format, please convert it with `openssl` to PEM and then load keys as shown below
 
 ```
 ~$ openssl rsa -inform der -in private.der -outform pem -out private.pem
@@ -49,7 +49,7 @@ Extract public key from `private-key.pem`
 
 Send `public-key.pem` to lendistry via email. (Don't send private key, e.g.`private-key.pem`.)
 
-In response lendistry will send `kid` value which has to be sent in all further calls to lendistry API via `kid` header.
+In response lendistry sends `kid` value which has to be sent in all further calls to lendistry API via `Kid` header (upper-cased first letter).
 
 Example
 ```
@@ -76,10 +76,9 @@ PublicKey publicKey = KeyPairParser.parsePublicKeyPem(pathToPemFile);
 ```java 
 String message = "some message";
 
-// Merchant's Key Pair (created outside) 
 PublicKey lendistryPublicKey = KeyPairParser.parsePublicKeyPem("lendistry-public-key.pem");
 
-// encrypt at merchant
+// encrypt on merchant side
 KeySdk keySdk = new KeySdk();
 String encryptedMessage = keySdk.encrypt(message, lendistryPublicKey);
 
@@ -87,7 +86,7 @@ String encryptedMessage = keySdk.encrypt(message, lendistryPublicKey);
 // From API merchant gets encrypted by lendistry public key response. It can be decrypted as following 
 String encryptedResponse = ... ;// call do lendistry API
 
-String decryptedMessage = keySdk.decrypt(encryptedResponse, <merchant's private key>).getMessage();
+String decryptedResponse = keySdk.decrypt(encryptedResponse, <merchant's private key>).getMessage();
 ```
 
 When API call is made to lendistry API then: 
@@ -98,7 +97,7 @@ E.g.
 Kid: 1234-1234-1234-1234
 POST /tenant/prequal
 
-eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66
+eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66...
 ```
 
 Response is encrypted with merchant's public key (and can be decrypted with merchant's private key)
@@ -116,14 +115,14 @@ eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66
 ```java 
 KeyPair merchantKeyPair = ...; // obtained outside
 
-// sign at merchant
+// signed by merchant
 KeySdk keySdk = new KeySdk();
 String signature = keySdk.sign(message, merchantKeyPair.getPrivate());
 
-// send signature to lendistry API key, so lendistry can verify it
+// send signature to lendistry API, so lendistry can verify it
 // As reply lendistry API will send response back with signature which can be verified with lendistry public key. 
 
-boolean ok = keySdk.verify(message, signature, <lendistry public key>);
+boolean ok = keySdk.verify(response, signature, <lendistry public key>);
 ```
 
 **Create signature and verification with expiration date**
@@ -139,8 +138,8 @@ String stringToSign = new Message(originalMessage, dateInFuture).getStringToSign
 
 // sign at merchant
 KeySdk keySdk = new KeySdk();
-String signature = keySdk.sign(message, expiresAt, keyPair.getPrivate());
+String signature = keySdk.sign(message, expiresAt, merchantKeyPair.getPrivate());
 
 // verify at lendistry
-boolean ok = keySdk.verify(message, expiresAt, signature, keyPair.getPublic());
+boolean ok = keySdk.verify(message, expiresAt, signature, <lendistry public key>);
 ```
