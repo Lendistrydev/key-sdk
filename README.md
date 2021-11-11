@@ -10,7 +10,7 @@ Include within the <dependencies> section of your project's pom.xml file.
 <dependency>
     <groupId>com.lendistry</groupId>
     <artifactId>key-sdk</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
