@@ -1,0 +1,356 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API",
+    "version": "1.0",
+    "title": "API"
+  },
+  "host": "localhost:8081",
+  "basePath": "/",
+  "paths": {
+    "/tenant/{tenant}/dev/key-sdk/generate-keys": {
+      "get": {
+        "tags": [
+          "key-sdk-controller"
+        ],
+        "summary": "generate",
+        "operationId": "generateUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "keyLength",
+            "in": "query",
+            "description": "keyLength",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "tenant",
+            "in": "path",
+            "description": "tenant",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/KeyPairDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/tenant/{tenant}/dev/key-sdk/register-public-key": {
+      "post": {
+        "tags": [
+          "key-sdk-controller"
+        ],
+        "summary": "registerPublicKey",
+        "operationId": "registerPublicKeyUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "dto",
+            "description": "dto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PublicKeyDTO"
+            }
+          },
+          {
+            "name": "tenant",
+            "in": "path",
+            "description": "tenant",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PublicKeyDTO"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/tenant/{tenant}/dev/key-sdk/encrypt": {
+      "get": {
+        "tags": [
+          "key-sdk-controller"
+        ],
+        "summary": "encrypt",
+        "operationId": "encryptUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "kid",
+            "in": "query",
+            "description": "kid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "message",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tenant",
+            "in": "path",
+            "description": "tenant",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/tenant/{tenant}/dev/key-sdk/decrypt": {
+      "get": {
+        "tags": [
+          "key-sdk-controller"
+        ],
+        "summary": "decrypt",
+        "operationId": "decryptUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "kid",
+            "in": "query",
+            "description": "kid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "message",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tenant",
+            "in": "path",
+            "description": "tenant",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DecryptedDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/tenant/{tenant}/dev/key-sdk/verify": {
+      "get": {
+        "tags": [
+          "key-sdk-controller"
+        ],
+        "summary": "verify",
+        "operationId": "verifyUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "kid",
+            "in": "query",
+            "description": "kid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "message",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "signature",
+            "in": "query",
+            "description": "signature",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tenant",
+            "in": "path",
+            "description": "tenant",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "global"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "DecryptedDTO": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      },
+      "title": "DecryptedDTO"
+    },
+    "KeyPairDTO": {
+      "type": "object",
+      "properties": {
+        "keyPair": {
+          "type": "string"
+        },
+        "kid": {
+          "type": "string"
+        },
+        "serviceKid": {
+          "type": "string"
+        },
+        "servicePublicKey": {
+          "type": "string"
+        }
+      },
+      "title": "KeyPairDTO"
+    },
+    "PublicKeyDTO": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string"
+        },
+        "publicKey": {
+          "type": "string"
+        },
+        "serviceKid": {
+          "type": "string"
+        },
+        "servicePublicKey": {
+          "type": "string"
+        }
+      },
+      "title": "PublicKeyDTO"
+    }
+  }
+}
