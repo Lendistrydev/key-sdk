@@ -70,7 +70,19 @@ String pathToPemFile = "<path to private-key.pem file here>";
 PublicKey publicKey = KeyPairParser.parsePublicKeyPem(pathToPemFile);
 ```
 
-### Encryption and decryption
+### Obtain token to call API
+
+In order to call lendistry API token has to be obtained. See [auth flow doc](https://dash.readme.com/project/lendistry-sbl/v1.0/docs/auth-flow) for details.
+Token should be provided in `Authorization` header with `Bearer` prefix.
+
+Example
+```
+POST /tenant/prequal HTTP/1.1
+Kid: 1234-1234-1234-1234
+Authorization: Bearer <token>
+```
+
+### Encryption and decryption 
 
 **Encryption and decryption**
 ```java 
@@ -94,8 +106,9 @@ When API call is made to lendistry API then:
 - `kid` value of the public key must be sent in `Kid` header.
 E.g.
 ```
+POST /tenant/prequal HTTP/1.1
 Kid: 1234-1234-1234-1234
-POST /tenant/prequal
+Authorization: Bearer <token>
 
 eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66...
 ```
