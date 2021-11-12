@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyPair;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.openssl.PEMKeyPair;
@@ -39,11 +38,18 @@ public class KeyPairParser {
     }
   }
 
+  public static PublicKey parsePublicKeyPem(String pathToPemFile) throws IOException {
+    try (InputStream inputStream = new FileInputStream(pathToPemFile)) {
+      return parsePublicKeyPem(inputStream);
+    }
+  }
+
   public static PublicKey parsePublicKeyPem(InputStream inputStream) throws IOException {
     try (InputStreamReader r = new InputStreamReader(inputStream)) {
       return parsePublicKeyPem(r);
     }
   }
+
   public static PublicKey parsePublicKeyPem(InputStreamReader inputStreamReader) throws IOException {
     KeySdk.installBouncyCastle();
 
