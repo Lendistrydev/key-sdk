@@ -129,7 +129,7 @@ boolean ok = keySdk.verify(response, signature, <lendistry public key>);
 
 Notes:
 - If expiration date is set it includes date as signing input together with message.
-- If expiration date is "older" or less then current time in jvm that perform singing/verification then operation will be failed with `KeySdkException`
+- If expiration date is "older" or less than current time in jvm that perform singing/verification then operation will be failed with `KeySdkException`
 
 ```java
 String originalMessage = "some message";
