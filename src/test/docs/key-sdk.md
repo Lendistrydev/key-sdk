@@ -4,7 +4,7 @@
 
 **Adding key-sdk to your project using Maven.**
 
-Include within the <dependencies> section of your project's pom.xml file.
+Include within the `<dependencies>` section of your project's `pom.xml` file.
 
 ```xml
 <dependency>
@@ -14,73 +14,13 @@ Include within the <dependencies> section of your project's pom.xml file.
 </dependency>
 ```
 
-You can find releases here https://github.com/Lendistrydev/key-sdk/releases/
+You can find releases here [https://github.com/Lendistrydev/key-sdk/releases/](https://github.com/Lendistrydev/key-sdk/releases/)
 
 ## Overview
 
 Key SDK provides following functionality :
 - message signing and verification of signature
 - encryption and decryption of data
-
-### Key Management
-
-Lendistry Public Key can be found here [lendistry-public-key.pem](https://github.com/Lendistrydev/key-sdk/blob/main/src/main/resources/lendistry-public-key.pem)
-
-To get key pair merchant can :
-
-**Generate merchant's key pair locally and send public key to lendistry via email**
-
-Generate RSA keys in command line (write keys in `private-key.pem`)
-```
-~$ openssl genrsa -out private-key.pem 4096
-```
-
-If you have keys in DER format, please convert it with `openssl` to PEM and then load keys as shown below
-
-```
-~$ openssl rsa -inform der -in private.der -outform pem -out private.pem
-```
-
-Extract public key from `private-key.pem`
-
-```
-~$ openssl rsa -in private-key.pem -pubout -out public-key.pem
-```
-
-Send `public-key.pem` to lendistry via email. (Don't send private key, e.g.`private-key.pem`.)
-
-In response lendistry sends `kid` value which has to be sent in all further calls to lendistry API via `Kid` header (upper-cased first letter).
-
-Example
-```
-POST /tenant/prequal HTTP/1.1
-Kid: 1234-1234-1234-1234
-Authorization: Bearer <token>
-```
-
-Load key pair from PEM file
-```
-String pathToPemFile = "<path to private-key.pem file here>";
-KeyPair keyPair = KeyPairParser.parsePem(pathToPemFile);
-```
-
-Load public key from PEM file
-```
-String pathToPemFile = "<path to private-key.pem file here>";
-PublicKey publicKey = KeyPairParser.parsePublicKeyPem(pathToPemFile);
-```
-
-### Obtain token to call API
-
-In order to call lendistry API token has to be obtained. See [auth flow doc](https://dash.readme.com/project/lendistry-sbl/v1.0/docs/auth-flow) for details.
-Token should be provided in `Authorization` header with `Bearer` prefix.
-
-Example
-```
-POST /tenant/prequal HTTP/1.1
-Kid: 1234-1234-1234-1234
-Authorization: Bearer <token>
-```
 
 ### Encryption and decryption
 
@@ -100,27 +40,6 @@ String encryptedResponse = ... ;// call do lendistry API
 
 String decryptedResponse = keySdk.decrypt(encryptedResponse, <merchant's private key>).getMessage();
 ```
-
-When API call is made to lendistry API then:
-- request payload must be encrypted with merchant's public key
-- `kid` value of the public key must be sent in `Kid` header.
-  E.g.
-```
-POST /tenant/prequal HTTP/1.1
-Kid: 1234-1234-1234-1234
-Authorization: Bearer <token>
-
-eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66...
-```
-
-Response is encrypted with merchant's public key (and can be decrypted with merchant's private key)
-```
-HTTP/1.1 200 OK
-Kid: 3456-3456-3456-3456
-
-eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66
-```
-
 
 ### Signing and Signature Verification
 

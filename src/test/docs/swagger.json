@@ -1,0 +1,130 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Tenant API",
+    "version": "1.0",
+    "title": "Tenant API",
+    "license": {
+      "name": "Tenant API"
+    }
+  },
+  "host": "localhost:8081",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "tenant-prequal-controller",
+      "description": "Tenant Prequal Controller"
+    }
+  ],
+  "paths": {
+    "/tenant/appinstances/{id}": {
+      "get": {
+        "tags": [
+          "tenant-prequal-controller"
+        ],
+        "summary": "getAppInstances",
+        "operationId": "getAppInstancesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EncryptedDto"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/tenant/prequal": {
+      "post": {
+        "tags": [
+          "tenant-prequal-controller"
+        ],
+        "summary": "prequal",
+        "operationId": "prequalUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "dto",
+            "description": "dto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EncryptedDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EncryptedDto"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "global"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "EncryptedDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string"
+        }
+      },
+      "title": "EncryptedDto"
+    }
+  }
+}
