@@ -1,15 +1,14 @@
 package com.lendistry.keysdk;
 
-import static com.lendistry.keysdk.KeySdk.dateToIsoInUtc;
-
 import com.nimbusds.jose.shaded.json.JSONObject;
 import com.nimbusds.jose.shaded.json.JSONValue;
-import java.util.Date;
-import java.util.Map;
-import lombok.Getter;
 import org.apache.commons.codec.digest.DigestUtils;
 
-@Getter
+import java.util.Date;
+import java.util.Map;
+
+import static com.lendistry.keysdk.KeySdk.dateToIsoInUtc;
+
 public class Message {
 
   private String canonicalMessage;
@@ -62,5 +61,21 @@ public class Message {
     if (isExpired(expiresAt)) {
       throw new KeySdkException(String.format("Message is expired. Expired at %s.", expiresAt));
     }
+  }
+
+  public String getCanonicalMessage() {
+    return this.canonicalMessage;
+  }
+
+  public Date getExpiresAt() {
+    return this.expiresAt;
+  }
+
+  public String getStringToSign() {
+    return this.stringToSign;
+  }
+
+  public String getStringToEncrypt() {
+    return this.stringToEncrypt;
   }
 }

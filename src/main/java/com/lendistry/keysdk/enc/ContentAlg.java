@@ -1,7 +1,6 @@
 package com.lendistry.keysdk.enc;
 
 import com.nimbusds.jose.EncryptionMethod;
-import lombok.Getter;
 
 public enum ContentAlg {
   A128CBC_HS256,
@@ -26,5 +25,9 @@ public enum ContentAlg {
     XC20P.encryptionMethod = EncryptionMethod.XC20P;
   }
 
-  @Getter private EncryptionMethod encryptionMethod;
+  private EncryptionMethod encryptionMethod;
+
+  public EncryptionMethod getEncryptionMethod() {
+    return this.encryptionMethod;
+  }
 }

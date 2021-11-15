@@ -1,7 +1,6 @@
 package com.lendistry.keysdk.enc;
 
 import com.nimbusds.jose.JWEAlgorithm;
-import lombok.Getter;
 
 public enum EncryptionAlg {
   RSA_OAEP_256,
@@ -60,5 +59,9 @@ public enum EncryptionAlg {
     PBES2_HS512_A256KW.jweAlgorithm = JWEAlgorithm.PBES2_HS512_A256KW;
   }
 
-  @Getter private JWEAlgorithm jweAlgorithm;
+  private JWEAlgorithm jweAlgorithm;
+
+  public JWEAlgorithm getJweAlgorithm() {
+    return this.jweAlgorithm;
+  }
 }

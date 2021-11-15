@@ -1,7 +1,6 @@
 package com.lendistry.keysdk.sign;
 
 import com.nimbusds.jose.JWSAlgorithm;
-import lombok.Getter;
 
 public enum SigningAlg {
   HS256,
@@ -44,5 +43,9 @@ public enum SigningAlg {
     EdDSA.jwsAlgorithm = JWSAlgorithm.EdDSA;
   }
 
-  @Getter private JWSAlgorithm jwsAlgorithm;
+  private JWSAlgorithm jwsAlgorithm;
+
+  public JWSAlgorithm getJwsAlgorithm() {
+    return this.jwsAlgorithm;
+  }
 }

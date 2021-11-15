@@ -12,6 +12,8 @@ import com.nimbusds.jose.jca.JCAContext;
 import com.nimbusds.jose.jca.JWEJCAContext;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.RSAKey;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -24,8 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
-import lombok.Getter;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class KeySdk {
 
@@ -52,9 +52,9 @@ public class KeySdk {
   // RSASSA-PKCS-v1_5 using SHA-256 hash algorithm (recommended).
   private static final SigningAlg DEFAULT_SIGNING_ALG = SigningAlg.RS256;
 
-  @Getter private final JCAContext jcaContext;
-  @Getter private final JWEJCAContext jweContext;
-  @Getter private final KeyGenerator keyGenerator;
+  private final JCAContext jcaContext;
+  private final JWEJCAContext jweContext;
+  private final KeyGenerator keyGenerator;
 
   private final Signer signer;
   private final Encryptor encryptor;
@@ -164,5 +164,17 @@ public class KeySdk {
 
   public String decrypt(String encryptedMessage, PrivateKey privateKey) throws KeySdkException {
     return encryptor.decrypt(encryptedMessage, privateKey);
+  }
+
+  public JCAContext getJcaContext() {
+    return this.jcaContext;
+  }
+
+  public JWEJCAContext getJweContext() {
+    return this.jweContext;
+  }
+
+  public KeyGenerator getKeyGenerator() {
+    return this.keyGenerator;
   }
 }
