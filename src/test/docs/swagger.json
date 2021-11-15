@@ -29,9 +29,30 @@
         ],
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "id",
             "in": "path",
             "description": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Kid",
+            "in": "header",
+            "description": "Kid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Lendistry-Kid",
+            "in": "header",
+            "description": "Lendistry-Kid",
             "required": true,
             "type": "string"
           }
@@ -77,6 +98,13 @@
         ],
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "dto",
             "description": "dto",
@@ -84,6 +112,13 @@
             "schema": {
               "$ref": "#/definitions/EncryptedDto"
             }
+          },
+          {
+            "name": "Kid",
+            "in": "header",
+            "description": "Kid",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
