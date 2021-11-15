@@ -7,8 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -64,15 +62,10 @@ public class SignatureTest {
   }
 
   @Test
-  public void sign_whenSignJson_shouldVerifyItCorrectly() throws KeySdkException, JSONException {
+  public void sign_whenSignJson_shouldVerifyItCorrectly() throws KeySdkException {
     String exp = KeySdk.dateToIsoInUtc(new Date());
 
-    JSONObject json = new JSONObject();
-    json.put("message", "merchant lendistry");
-    json.put("exp", exp);
-    json.put("int", 5);
-
-    String message = json.toString();
+    String message = String.format("{\"message\": \"\"merchant lendistry\"\", \"exp\": \"%s\", \"int\"%d}", exp, 5);
 
     String signature = keySdk.sign(message, keyPair.getPrivate());
 

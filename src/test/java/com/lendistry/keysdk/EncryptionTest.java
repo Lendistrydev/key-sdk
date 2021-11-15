@@ -8,8 +8,9 @@ import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Date;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import com.nimbusds.jose.shaded.json.JSONObject;
+import com.nimbusds.jose.util.JSONObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -63,7 +64,7 @@ public class EncryptionTest {
   }
 
   @Test
-  public void encryptJson_afterDecryption_textMustMatch() throws KeySdkException, JSONException {
+  public void encryptJson_afterDecryption_textMustMatch() throws KeySdkException, ParseException {
     String exp = KeySdk.dateToIsoInUtc(new Date());
 
     JSONObject json = new JSONObject();
@@ -74,9 +75,9 @@ public class EncryptionTest {
     String encryptedMessage = keySdk.encrypt(json.toString(), keyPair.getPublic());
     String decryptedMessage = keySdk.decrypt(encryptedMessage, keyPair.getPrivate());
 
-    JSONObject decryptedJson = new JSONObject(decryptedMessage);
-    assertEquals("merchant lendistry", decryptedJson.getString("message"));
-    assertEquals(exp, decryptedJson.getString("exp"));
-    assertEquals(5, decryptedJson.getInt("int"));
+    JSONObject decryptedJson = new JSONObject(JSONObjectUtils.parse(decryptedMessage));
+    assertEquals("merchant lendistry", decryptedJson.getAsString("message"));
+    assertEquals(exp, decryptedJson.getAsString("exp"));
+    assertEquals(5L, decryptedJson.getAsNumber("int"));
   }
 }

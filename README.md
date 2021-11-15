@@ -53,10 +53,10 @@ In response lendistry sends `kid` value which has to be sent in all further call
 
 Example
 ```
+POST /tenant/prequal HTTP/1.1
 Kid: 1234-1234-1234-1234
-POST /tenant/prequal
+Authorization: Bearer <token>
 ```
-
 
 Load key pair from PEM file
 ```
