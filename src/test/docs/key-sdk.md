@@ -2,7 +2,7 @@
 
 ## Installation
 
-**Adding key-sdk to your project using Maven.** 
+**Adding key-sdk to your project using Maven.**
 
 Include within the <dependencies> section of your project's pom.xml file.
 
@@ -51,6 +51,13 @@ Send `public-key.pem` to lendistry via email. (Don't send private key, e.g.`priv
 
 In response lendistry sends `kid` value which has to be sent in all further calls to lendistry API via `Kid` header (upper-cased first letter).
 
+Example
+```
+POST /tenant/prequal HTTP/1.1
+Kid: 1234-1234-1234-1234
+Authorization: Bearer <token>
+```
+
 Load key pair from PEM file
 ```
 String pathToPemFile = "<path to private-key.pem file here>";
@@ -63,7 +70,19 @@ String pathToPemFile = "<path to private-key.pem file here>";
 PublicKey publicKey = KeyPairParser.parsePublicKeyPem(pathToPemFile);
 ```
 
-### Encryption and decryption 
+### Obtain token to call API
+
+In order to call lendistry API token has to be obtained. See [auth flow doc](https://dash.readme.com/project/lendistry-sbl/v1.0/docs/auth-flow) for details.
+Token should be provided in `Authorization` header with `Bearer` prefix.
+
+Example
+```
+POST /tenant/prequal HTTP/1.1
+Kid: 1234-1234-1234-1234
+Authorization: Bearer <token>
+```
+
+### Encryption and decryption
 
 **Encryption and decryption**
 ```java 
@@ -81,6 +100,27 @@ String encryptedResponse = ... ;// call do lendistry API
 
 String decryptedResponse = keySdk.decrypt(encryptedResponse, <merchant's private key>).getMessage();
 ```
+
+When API call is made to lendistry API then:
+- request payload must be encrypted with merchant's public key
+- `kid` value of the public key must be sent in `Kid` header.
+  E.g.
+```
+POST /tenant/prequal HTTP/1.1
+Kid: 1234-1234-1234-1234
+Authorization: Bearer <token>
+
+eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66...
+```
+
+Response is encrypted with merchant's public key (and can be decrypted with merchant's private key)
+```
+HTTP/1.1 200 OK
+Kid: 3456-3456-3456-3456
+
+eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.p1Y66
+```
+
 
 ### Signing and Signature Verification
 
