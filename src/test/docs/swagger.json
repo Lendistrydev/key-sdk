@@ -22,8 +22,8 @@
         "tags": [
           "tenant-prequal-controller"
         ],
-        "summary": "getAppInstances",
-        "operationId": "getAppInstancesUsingGET",
+        "summary": "get-app-instances",
+        "operationId": "get-app-instances-using-GET",
         "produces": [
           "*/*"
         ],
