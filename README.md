@@ -117,3 +117,8 @@ String signature = keySdk.sign(message, expiresAt, merchantKeyPair.getPrivate())
 // verify at lendistry
 boolean ok = keySdk.verify(message, expiresAt, signature, <lendistry public key>);
 ```
+
+## FAQ
+
+**How to generate jar with dependencies**
+Run `mvn clean compile assembly:single`

@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyPair;
 
+/**
+ * Create jar with dependencies:
+ * mvn clean compile assembly:single
+ */
 public class Main {
 
   public static void main(String[] args) throws IOException, KeySdkException {
