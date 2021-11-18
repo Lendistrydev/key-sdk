@@ -17,7 +17,7 @@ paths:
     get:
       tags:
         - Authentication
-      summary: configuration
+      summary: OpenID Connect Discovery
       operationId: configurationUsingGET
       parameters:
         - name: tenant
@@ -44,7 +44,7 @@ paths:
     get:
       tags:
         - Authentication
-      summary: certs
+      summary: OpenID Connect JWKS
       operationId: certsUsingGET
       parameters:
         - name: tenant
@@ -71,7 +71,7 @@ paths:
     post:
       tags:
         - Authentication
-      summary: token
+      summary: Obtain Token
       operationId: tokenUsingPOST
       parameters:
         - name: tenant
