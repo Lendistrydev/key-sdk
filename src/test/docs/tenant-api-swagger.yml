@@ -27,20 +27,22 @@ paths:
             type: string
         - name: id
           in: path
-          description: id
+          description: Application instance id
           required: true
           schema:
             type: string
         - name: Kid
           in: header
-          description: Kid
+          description: Kid value provided by Lendistry during Onboarding.
           required: true
           schema:
             type: string
         - name: Lendistry-Kid
           in: header
-          description: Lendistry-Kid
+          description: Lendistry-Kid published in docs (see Onboarding).
           required: true
+          example:
+            - 0509f70a-45fd-11ec-81d3-0242ac130003
           schema:
             type: string
       responses:
@@ -74,7 +76,7 @@ paths:
             type: string
         - name: Kid
           in: header
-          description: Kid
+          description: Kid value provided by Lendistry during Onboarding.
           required: true
           schema:
             type: string
