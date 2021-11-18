@@ -1,0 +1,318 @@
+openapi: 3.0.3
+info:
+  title: Authentication API
+  description: Authentication API
+  license: {
+    name: API
+  }
+  version: '1.0'
+servers:
+  - url: https://facebook.lendistry-staging.net/
+    description: Lendistry Staging Server
+tags:
+  - name: Authentication
+    description: Authentication
+paths:
+  /realms/{tenant}/.well-known/openid-configuration:
+    get:
+      tags:
+        - oidc-controller
+      summary: configuration
+      operationId: configurationUsingGET
+      parameters:
+        - name: tenant
+          in: path
+          description: tenant
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConfigurationDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - JWT:
+            - global
+  /realms/{tenant}/protocol/openid-connect/certs:
+    get:
+      tags:
+        - oidc-controller
+      summary: certs
+      operationId: certsUsingGET
+      parameters:
+        - name: tenant
+          in: path
+          description: tenant
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CertsDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - JWT:
+            - global
+  /realms/{tenant}/protocol/openid-connect/token:
+    post:
+      tags:
+        - oidc-controller
+      summary: token
+      operationId: tokenUsingPOST
+      parameters:
+        - name: tenant
+          in: path
+          description: tenant
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - formData
+              type: object
+              properties:
+                formData:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: formData
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponseDTO'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - JWT:
+            - global
+components:
+  schemas:
+    CertsDTO:
+      title: CertsDTO
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/Key'
+    ErrorCode:
+      title: ErrorCode
+      type: object
+    ErrorDTO:
+      title: ErrorDTO
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        info:
+          type: object
+        message:
+          type: string
+    ErrorResponseDTO:
+      title: ErrorResponseDTO
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDTO'
+        id:
+          type: string
+          format: uuid
+        stackTrace:
+          type: string
+    ConfigurationDTO:
+      title: ConfigurationDTO
+      type: object
+      properties:
+        authorization_endpoint:
+          type: string
+        backchannel_authentication_endpoint:
+          type: string
+        backchannel_logout_session_supported:
+          type: boolean
+        backchannel_logout_supported:
+          type: boolean
+        backchannel_token_delivery_modes_supported:
+          type: array
+          items:
+            type: string
+        check_session_iframe:
+          type: string
+        claim_types_supported:
+          type: array
+          items:
+            type: string
+        claims_parameter_supported:
+          type: boolean
+        claims_supported:
+          type: array
+          items:
+            type: string
+        code_challenge_methods_supported:
+          type: array
+          items:
+            type: string
+        device_authorization_endpoint:
+          type: string
+        end_session_endpoint:
+          type: string
+        grant_types_supported:
+          type: array
+          items:
+            type: string
+        id_token_encryption_alg_values_supported:
+          type: array
+          items:
+            type: string
+        id_token_encryption_enc_values_supported:
+          type: array
+          items:
+            type: string
+        id_token_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+        introspection_endpoint:
+          type: string
+        introspection_endpoint_auth_methods_supported:
+          type: array
+          items:
+            type: string
+        introspection_endpoint_auth_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+        issuer:
+          type: string
+        jwks_uri:
+          type: string
+        registration_endpoint:
+          type: string
+        request_object_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+        request_parameter_supported:
+          type: boolean
+        request_uri_parameter_supported:
+          type: boolean
+        require_request_uri_registration:
+          type: boolean
+        response_modes_supported:
+          type: array
+          items:
+            type: string
+        response_types_supported:
+          type: array
+          items:
+            type: string
+        revocation_endpoint:
+          type: string
+        revocation_endpoint_auth_methods_supported:
+          type: array
+          items:
+            type: string
+        revocation_endpoint_auth_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+        scopes_supported:
+          type: array
+          items:
+            type: string
+        subject_types_supported:
+          type: array
+          items:
+            type: string
+        tls_client_certificate_bound_access_tokens:
+          type: boolean
+        token_endpoint:
+          type: string
+        token_endpoint_auth_methods_supported:
+          type: array
+          items:
+            type: string
+        token_endpoint_auth_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+        userinfo_endpoint:
+          type: string
+        userinfo_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+    Key:
+      title: Key
+      type: object
+      properties:
+        alg:
+          type: string
+        e:
+          type: string
+        kid:
+          type: string
+        kty:
+          type: string
+        'n':
+          type: string
+        use:
+          type: string
+        x5c:
+          type: array
+          items:
+            type: string
+        x5t:
+          type: string
+        x5t#S256:
+          type: string
+    TokenResponseDTO:
+      title: TokenResponseDTO
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+          format: int32
+        refresh_expires_in:
+          type: integer
+          format: int32
+        refresh_token:
+          type: string
+        token_type:
+          type: string

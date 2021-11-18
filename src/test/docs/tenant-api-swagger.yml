@@ -104,9 +104,8 @@ paths:
         - JWT:
             - global
 servers:
-  - url: https://facebook.lendistry-dev.net/
   - url: https://facebook.lendistry-staging.net/
-  - url: https://facebook.mylendistry.net/
+    description: Lendistry Staging Server
 components:
   schemas:
     EncryptedDto:
@@ -115,3 +114,29 @@ components:
         data:
           type: string
       title: EncryptedDto
+    ErrorCode:
+      title: ErrorCode
+      type: object
+    ErrorDTO:
+      title: ErrorDTO
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        info:
+          type: object
+        message:
+          type: string
+    ErrorResponseDTO:
+      title: ErrorResponseDTO
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDTO'
+        id:
+          type: string
+          format: uuid
+        stackTrace:
+          type: string
