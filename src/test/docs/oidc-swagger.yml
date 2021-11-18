@@ -7,7 +7,7 @@ info:
   }
   version: '1.0'
 servers:
-  - url: https://test-services.lendistry-staging.net/
+  - url: https://{tenant}-services.lendistry-staging.net/
     description: Lendistry Staging Server
 tags:
   - name: Authentication
