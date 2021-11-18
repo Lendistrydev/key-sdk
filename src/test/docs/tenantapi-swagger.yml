@@ -106,7 +106,7 @@ paths:
         - JWT:
             - global
 servers:
-  - url: https://facebook.lendistry-staging.net/
+  - url: https://test-services.lendistry-staging.net/
     description: Lendistry Staging Server
 components:
   schemas:
