@@ -16,7 +16,7 @@ paths:
   /realms/{tenant}/.well-known/openid-configuration:
     get:
       tags:
-        - oidc-controller
+        - Authentication
       summary: configuration
       operationId: configurationUsingGET
       parameters:
@@ -43,7 +43,7 @@ paths:
   /realms/{tenant}/protocol/openid-connect/certs:
     get:
       tags:
-        - oidc-controller
+        - Authentication
       summary: certs
       operationId: certsUsingGET
       parameters:
@@ -70,7 +70,7 @@ paths:
   /realms/{tenant}/protocol/openid-connect/token:
     post:
       tags:
-        - oidc-controller
+        - Authentication
       summary: token
       operationId: tokenUsingPOST
       parameters:
