@@ -40,9 +40,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      security:
-        - JWT:
-            - global
   /realms/{tenant}/protocol/openid-connect/certs:
     get:
       tags:
@@ -70,9 +67,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      security:
-        - JWT:
-            - global
   /realms/{tenant}/protocol/openid-connect/token:
     post:
       tags:
@@ -91,15 +85,23 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              required:
-                - formData
               type: object
+              required:
+                - grant_type
+                - username
+                - password
               properties:
-                formData:
-                  type: object
-                  additionalProperties:
-                    type: string
-                  description: formData
+                grant_type:
+                  type: string
+                  description: Provides a list of OAuth 2.0 grant types
+                  example:
+                    - password
+                username:
+                  type: string
+                  description: Username recieved during Onboarding
+                password:
+                  type: string
+                  description: Password recieved during Onboarding
       responses:
         '200':
           description: OK
@@ -115,9 +117,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      security:
-        - JWT:
-            - global
 components:
   schemas:
     CertsDTO:
