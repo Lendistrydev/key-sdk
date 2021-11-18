@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  description: APIs used by a tenant to interact with lendistry
+  version: "1.0"
+  title: Tenant API
+  license:
+    name: Tenant API
+tags:
+  - name: Pre-Qualification API
+    description: API to get a approximate qualification decision before filling out the
+      application
+  - name: Application
+    description: APIs to work with application
+paths:
+  "/tenant/appinstances/{id}":
+    get:
+      tags:
+        - Application
+      summary: Get a specific application by ID
+      operationId: get-app-instances-using-GET
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: string
+        - name: Kid
+          in: header
+          description: Kid
+          required: true
+          schema:
+            type: string
+        - name: Lendistry-Kid
+          in: header
+          description: Lendistry-Kid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncryptedDto"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      security:
+        - JWT:
+            - global
+  /tenant/prequal:
+    post:
+      tags:
+        - Application
+      summary: API that gets a pre-qualification status prior to applicant filling out their application
+      operationId: prequalUsingPOST
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
+        - name: Kid
+          in: header
+          description: Kid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncryptedDto"
+        description: dto
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncryptedDto"
+        "201":
+          description: Created
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      security:
+        - JWT:
+            - global
+servers:
+  - url: https://facebook.lendistry-dev.net/
+  - url: https://facebook.lendistry-staging.net/
+  - url: https://facebook.mylendistry.net/
+components:
+  schemas:
+    EncryptedDto:
+      type: object
+      properties:
+        data:
+          type: string
+      title: EncryptedDto
