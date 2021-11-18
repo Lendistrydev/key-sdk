@@ -12,7 +12,7 @@ tags:
   - name: Application
     description: APIs to work with application
 paths:
-  "/tenant/appinstances/{id}":
+  "/tenant/sbl-app/appinstances/{id}":
     get:
       tags:
         - Application
@@ -61,7 +61,7 @@ paths:
       security:
         - JWT:
             - global
-  /tenant/prequal:
+  /tenant/sbl-app/prequal:
     post:
       tags:
         - Application
