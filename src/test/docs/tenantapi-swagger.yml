@@ -59,9 +59,6 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-      security:
-        - JWT:
-            - global
   /tenant/sbl-app/prequal:
     post:
       tags:
@@ -89,11 +86,11 @@ paths:
               $ref: "#/components/schemas/PreQualRequest"
       responses:
         "200":
-            description: OK
-            content:
-              '*/*':
-                schema:
-                  $ref: "#/components/schemas/PreQualResponse"
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PreQualResponse"
         "201":
           description: Created
         "401":
@@ -102,9 +99,6 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-      security:
-        - JWT:
-            - global
 servers:
   - url: https://{tenant}-services.lendistry-staging.net/
     description: Lendistry Staging Server
@@ -141,26 +135,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Owner'
-    Owner:
-      title: Owner
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-    PreQualResponse:
-      title: PreQualResponse
-      type: object
-      properties:
-        loanOffer:
-          type: array
-          items:
-            $ref: '#/components/schemas/LoanOffer'
-        qualificationDecision:
-          type: string
     AppInstanceDto:
       title: AppInstanceDto
       type: object
@@ -195,6 +169,26 @@ components:
         updated_at:
           type: string
           format: date-time
+    Owner:
+      title: Owner
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    PreQualResponse:
+      title: PreQualResponse
+      type: object
+      properties:
+        loanOffer:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanOffer'
+        qualificationDecision:
+          type: string
     LoanOffer:
       title: LoanOffer
       type: object
