@@ -52,7 +52,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EncryptedDto"
+                $ref: "#/components/schemas/AppInstanceDto"
         "401":
           description: Unauthorized
         "403":
@@ -86,16 +86,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/EncryptedDto"
-        description: dto
-        required: true
+              $ref: "#/components/schemas/PreQualRequest"
       responses:
         "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EncryptedDto"
+            description: OK
+            content:
+              '*/*':
+                schema:
+                  $ref: "#/components/schemas/PreQualResponse"
         "201":
           description: Created
         "401":
@@ -112,6 +110,130 @@ servers:
     description: Lendistry Staging Server
 components:
   schemas:
+    PreQualRequest:
+      title: PreQualRequest
+      type: object
+      properties:
+        businessLegalEntityType:
+          type: string
+        businessName:
+          type: string
+        businessPhoneNumber:
+          type: string
+        businessZipCode:
+          type: string
+        creditScoreRating:
+          type: string
+        currency:
+          type: string
+        loanAmount:
+          type: number
+          format: bigdecimal
+        loanPurpose:
+          type: string
+        loanUrgency:
+          type: string
+        meta:
+          type: object
+        monthlyRevenueRange:
+          $ref: '#/components/schemas/MonthlyRevenueRange'
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+    Owner:
+      title: Owner
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    PreQualResponse:
+      title: PreQualResponse
+      type: object
+      properties:
+        loanOffer:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanOffer'
+        qualificationDecision:
+          type: string
+    AppInstanceDto:
+      title: AppInstanceDto
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - AUTOMATED_REVIEW_ADDITIONAL_DOCS_REQUIRED
+            - AUTOMATED_REVIEW_APPROVED
+            - AUTOMATED_REVIEW_DECLINED
+            - AUTOMATED_REVIEW_INPROGRESS
+            - AWAITING_ADDITIONAL_SYSTEM_DATA
+            - BORROWER_ABANDONED
+            - BORROWER_AGREEMENT_ACCEPTED
+            - BORROWER_CHANGES_REQUIRED
+            - BORROWER_SUBMITTED
+            - CLOSED
+            - CREATED
+            - INPROGRESS
+            - MANUAL_REVIEW_APPROVED
+            - MANUAL_REVIEW_APPROVED_WAITLISTED
+            - MANUAL_REVIEW_DECLINED
+            - MANUAL_REVIEW_DOCS_REQUIRED
+            - MANUAL_REVIEW_DOCS_REQUIRED_SALES
+            - MANUAL_REVIEW_REQUIRED
+            - MANUAL_REVIEW_REQUIRED_SALES
+            - PENDING_SELECTION
+            - PENDING_SELECTION_DOCS_REQUIRED
+            - SUSPENSE
+        updated_at:
+          type: string
+          format: date-time
+    LoanOffer:
+      title: LoanOffer
+      type: object
+      properties:
+        loanFee:
+          type: string
+        loanFeeUnit:
+          type: string
+        loanTerm:
+          type: integer
+          format: int32
+        maxLoanAmount:
+          type: number
+          format: bigdecimal
+        maxRate:
+          type: number
+          format: bigdecimal
+        minLoanAmount:
+          type: number
+          format: bigdecimal
+        minRate:
+          type: number
+          format: bigdecimal
+        offerId:
+          type: string
+        productCode:
+          type: string
+        termUnit:
+          type: string
+    MonthlyRevenueRange:
+      title: MonthlyRevenueRange
+      type: object
+      properties:
+        max:
+          type: number
+          format: bigdecimal
+        min:
+          type: number
+          format: bigdecimal
     EncryptedDto:
       type: object
       properties:
