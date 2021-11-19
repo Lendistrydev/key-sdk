@@ -102,10 +102,10 @@ paths:
                     - refresh_token
                 username:
                   type: string
-                  description: Username recieved during Onboarding
+                  description: API Username recieved during Onboarding
                 password:
                   type: string
-                  description: Password recieved during Onboarding
+                  description: API Password recieved during Onboarding
                 refresh_token:
                   type: string
                   description: Refresh Token recieved during authentication
