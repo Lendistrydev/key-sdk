@@ -18,6 +18,7 @@ paths:
       tags:
         - Authentication
       summary: OpenID Connect Discovery
+      description: Defines how clients dynamically discover information about OpenID Provider
       operationId: configurationUsingGET
       parameters:
         - name: tenant
@@ -45,6 +46,7 @@ paths:
       tags:
         - Authentication
       summary: OpenID Connect JWKS
+      description: Server's JSON Web Key Set document.
       operationId: certsUsingGET
       parameters:
         - name: tenant
@@ -73,6 +75,7 @@ paths:
         - Authentication
       summary: Obtain Token
       operationId: tokenUsingPOST
+      description: The token endpoint is used by the client to obtain an access token by presenting its authorization grant or refresh token.
       parameters:
         - name: tenant
           in: path
@@ -96,12 +99,16 @@ paths:
                   description: Provides a list of OAuth 2.0 grant types
                   example:
                     - password
+                    - refresh_token
                 username:
                   type: string
                   description: Username recieved during Onboarding
                 password:
                   type: string
                   description: Password recieved during Onboarding
+                refresh_token:
+                  type: string
+                  description: Refresh Token recieved during authentication
       responses:
         '200':
           description: OK
