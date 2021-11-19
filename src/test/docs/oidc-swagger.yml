@@ -23,7 +23,7 @@ paths:
       parameters:
         - name: tenant
           in: path
-          description: tenant
+          description: tenant value provided by lendistry team
           required: true
           style: simple
           schema:
@@ -46,12 +46,12 @@ paths:
       tags:
         - Authentication
       summary: OpenID Connect JWKS
-      description: Server's JSON Web Key Set document.
+      description: OpenID Connect Provider's JSON Web Key Set document published according to Connect specs.
       operationId: certsUsingGET
       parameters:
         - name: tenant
           in: path
-          description: tenant
+          description: tenant value provided by lendistry team
           required: true
           style: simple
           schema:
@@ -79,7 +79,7 @@ paths:
       parameters:
         - name: tenant
           in: path
-          description: tenant
+          description: tenant value provided by lendistry team
           required: true
           style: simple
           schema:
@@ -308,6 +308,7 @@ components:
           type: string
     TokenResponseDTO:
       title: TokenResponseDTO
+      description: Token Reponse which provides Access Token, Refresh Token and expiration information.
       type: object
       properties:
         access_token:
