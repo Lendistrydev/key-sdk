@@ -16,12 +16,13 @@ paths:
     get:
       tags:
         - Application
-      summary: Get a specific application by ID
+      summary: Get App Instance
+      description: Get a specific application by ID
       operationId: get-app-instances-using-GET
       parameters:
         - name: Authorization
           in: header
-          description: Bearer token
+          description: Bearer token, e.g. "Bearer <access_token here>"
           required: true
           schema:
             type: string
@@ -65,12 +66,13 @@ paths:
     post:
       tags:
         - Application
-      summary: API that gets a pre-qualification status prior to applicant filling out their application
+      summary: Pre-qualification
+      description: API that gets a pre-qualification status prior to applicant filling out their application
       operationId: prequalUsingPOST
       parameters:
         - name: Authorization
           in: header
-          description: Bearer token
+          description: Bearer token, e.g. "Bearer <access_token here>"
           required: true
           schema:
             type: string
