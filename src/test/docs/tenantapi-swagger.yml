@@ -15,7 +15,7 @@ paths:
   "/tenant/sbl-app/appinstances/{id}":
     get:
       tags:
-        - Application
+        - Tenant API
       summary: Get App Instance
       description: Get a specific application by ID
       operationId: get-app-instances-using-GET
@@ -62,7 +62,7 @@ paths:
   /tenant/sbl-app/prequal:
     post:
       tags:
-        - Application
+        - Tenant API
       summary: Pre-qualification
       description: API that gets a pre-qualification status prior to applicant filling out their application
       operationId: prequalUsingPOST
@@ -99,11 +99,83 @@ paths:
           description: Forbidden (not encrypted)
         "404":
           description: Not Found (not encrypted)
+  /tenant/offer/{id}:
+    get:
+      tags:
+        - Tenant API
+      summary: Get Offer
+      operationId: getOffer
+      parameters:
+        - name: id
+          in: path
+          description: id of an offer
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TenantOffer'
+        "401":
+          description: Unauthorized (not encrypted)
+        "403":
+          description: Forbidden (not encrypted)
+        "404":
+          description: Not Found (not encrypted)
 servers:
   - url: https://{tenant}-services.lendistry-staging.net/v1
     description: Lendistry Staging Server
 components:
   schemas:
+    TenantOffer:
+      title: TenantOffer
+      type: object
+      properties:
+        applicationId:
+          type: string
+        applicationInstanceId:
+          type: string
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        id:
+          type: string
+        partnerName:
+          type: string
+        partnerOfferData:
+          type: object
+        partnerOfferId:
+          type: string
+        productCode:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        tenantId:
+          type: string
+        tenantLoanId:
+          type: string
+        updateDate:
+          type: string
+          format: date-time
+        updateReason:
+          type: string
+        updatedBy:
+          type: string
+        user:
+          type: string
+        version:
+          type: integer
+          format: int32
     PreQualRequest:
       title: PreQualRequest
       type: object
@@ -127,14 +199,15 @@ components:
           type: string
         loanUrgency:
           type: string
-        meta:
-          type: object
         monthlyRevenueRange:
           $ref: '#/components/schemas/MonthlyRevenueRange'
         owners:
           type: array
           items:
             $ref: '#/components/schemas/Owner'
+        meta:
+          type: object
+          additionalProperties: true
     AppInstanceDto:
       title: AppInstanceDto
       type: object
