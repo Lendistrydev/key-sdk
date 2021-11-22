@@ -227,7 +227,7 @@ components:
         meta:
           type: object
           additionalProperties: true
-          description: meta field is nested
+          description: meta field is free object and can contain nested objects
     AppInstanceDto:
       title: AppInstanceDto
       type: object
