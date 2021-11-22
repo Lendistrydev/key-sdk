@@ -62,7 +62,7 @@ paths:
   /tenant/sbl-app/prequal:
     post:
       tags:
-        - Tenant API
+        - Offer API
       summary: Pre-qualification
       description: API that gets a pre-qualification status prior to applicant filling out their application
       operationId: prequalUsingPOST
@@ -102,7 +102,7 @@ paths:
   /tenant/offer/{id}:
     get:
       tags:
-        - Tenant API
+        - Offer API
       summary: Get Offer
       operationId: getOffer
       parameters:
@@ -208,6 +208,7 @@ components:
         meta:
           type: object
           additionalProperties: true
+          description: meta field is nested
     AppInstanceDto:
       title: AppInstanceDto
       type: object
