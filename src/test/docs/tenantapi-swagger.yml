@@ -100,7 +100,7 @@ paths:
         "404":
           description: Not Found
 servers:
-  - url: https://{tenant}-services.lendistry-staging.net/
+  - url: https://{tenant}-services.lendistry-staging.net/v1
     description: Lendistry Staging Server
 components:
   schemas:
