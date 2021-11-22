@@ -119,7 +119,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/TenantOffer'
+                $ref: '#/components/schemas/TenantOfferResponse'
         "401":
           description: Unauthorized (not encrypted)
         "403":
@@ -131,6 +131,25 @@ servers:
     description: Lendistry Staging Server
 components:
   schemas:
+    TenantOfferResponse:
+      title: TenantOfferResponse
+      type: object
+      properties:
+        applicationInstanceId:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        offerId:
+          type: string
+        partnerName:
+          type: string
+        partnerOfferData:
+          type: object
+        productCode:
+          type: string
+        tenantLoanId:
+          type: string
     TenantOffer:
       title: TenantOffer
       type: object
