@@ -150,6 +150,9 @@ components:
           type: string
         tenantLoanId:
           type: string
+        applyUrl:
+          type: string
+          description: apply url with signature parameter which can be used to validate url
     TenantOffer:
       title: TenantOffer
       type: object
