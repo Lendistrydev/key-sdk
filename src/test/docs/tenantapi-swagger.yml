@@ -15,9 +15,9 @@ paths:
   "/tenant/sbl-app/v1/appinstances/{id}":
     get:
       tags:
-        - Tenants
+        - Application Instances
       summary: Get App Instance
-      description: Get a specific application by ID
+      description: Get a specific application instance by ID
       operationId: get-app-instances-using-GET
       parameters:
         - name: Authorization
