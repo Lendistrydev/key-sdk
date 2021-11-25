@@ -17,7 +17,7 @@ paths:
       tags:
         - Application Instances
       summary: Get App Instance
-      description: Get a specific application instance by ID
+      description: Get a specific application instance by ID. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
       operationId: get-app-instances-using-GET
       parameters:
         - name: Authorization
@@ -64,7 +64,7 @@ paths:
       tags:
         - Offers
       summary: Pre-qualification
-      description: API that gets a pre-qualification status prior to applicant filling out their application
+      description: API that gets a pre-qualification status prior to applicant filling out their application. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
       operationId: prequalUsingPOST
       parameters:
         - name: Authorization
@@ -104,6 +104,7 @@ paths:
       tags:
         - Offers
       summary: Get Offer
+      description: Gets Offer. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
       operationId: getOffer
       parameters:
         - name: id
