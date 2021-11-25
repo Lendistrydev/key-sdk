@@ -1,0 +1,168 @@
+openapi: 3.0.0
+info:
+  description: APIs used by a tenant to interact with lendistry
+  version: "1.0"
+  title: API RESOURCE (ENCRYPTED)
+  license:
+    name: Tenant API
+tags:
+  - name: Pre-Qualification API
+    description: API to get a approximate qualification decision before filling out the
+      application
+  - name: Application
+    description: APIs to work with application
+paths:
+  "/tenant/sbl-app/v1/appinstances/{id}":
+    get:
+      tags:
+        - Application Instances
+      summary: Get App Instance
+      description: Get a specific application instance by ID. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
+      operationId: get-app-instances-using-GET
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Application instance id
+          required: true
+          schema:
+            type: string
+        - name: Kid
+          in: header
+          description: Kid value provided by Lendistry during Onboarding.
+          required: true
+          schema:
+            type: string
+        - name: Lendistry-Kid
+          in: header
+          description: Lendistry-Kid published in docs (see Onboarding).
+          required: true
+          example:
+            - 0509f70a-45fd-11ec-81d3-0242ac130003
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncryptedDto"
+        "401":
+          description: Unauthorized (not encrypted)
+        "403":
+          description: Forbidden (not encrypted)
+        "404":
+          description: Not Found (not encrypted)
+  /tenant/sbl-offer/v1/prequal:
+    post:
+      tags:
+        - Offers
+      summary: Pre-qualification
+      description: API that gets a pre-qualification status prior to applicant filling out their application. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
+      operationId: prequalUsingPOST
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: Kid
+          in: header
+          description: Kid value provided by Lendistry during Onboarding.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncryptedDto"
+        description: dto
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncryptedDto"
+        "201":
+          description: Created
+        "401":
+          description: Unauthorized (not encrypted)
+        "403":
+          description: Forbidden (not encrypted)
+        "404":
+          description: Not Found (not encrypted)
+  /tenant/sbl-offer/v1/offer/{id}:
+    get:
+      tags:
+        - Offers
+      summary: Get Offer
+      description: Gets Offer. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
+      operationId: getOffer
+      parameters:
+        - name: id
+          in: path
+          description: id of an offer
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncryptedDto"
+        "401":
+          description: Unauthorized (not encrypted)
+        "403":
+          description: Forbidden (not encrypted)
+        "404":
+          description: Not Found (not encrypted)
+servers:
+  - url: https://{tenant}-services.lendistry-staging.net
+    description: Lendistry Staging Server
+components:
+  schemas:
+    EncryptedDto:
+      type: object
+      properties:
+        data:
+          type: string
+      title: EncryptedDto
+    ErrorCode:
+      title: ErrorCode
+      type: object
+    ErrorDTO:
+      title: ErrorDTO
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        info:
+          type: object
+        message:
+          type: string
+    ErrorResponseDTO:
+      title: ErrorResponseDTO
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDTO'
+        id:
+          type: string
+          format: uuid
+        stackTrace:
+          type: string
