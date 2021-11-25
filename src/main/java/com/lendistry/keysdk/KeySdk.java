@@ -12,8 +12,6 @@ import com.nimbusds.jose.jca.JCAContext;
 import com.nimbusds.jose.jca.JWEJCAContext;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.RSAKey;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -26,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class KeySdk {
 

@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyPair;
 import java.security.PublicKey;
-
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
@@ -50,7 +49,8 @@ public class KeyPairParser {
     }
   }
 
-  public static PublicKey parsePublicKeyPem(InputStreamReader inputStreamReader) throws IOException {
+  public static PublicKey parsePublicKeyPem(InputStreamReader inputStreamReader)
+      throws IOException {
     KeySdk.installBouncyCastle();
 
     try (PEMParser pemParser = new PEMParser(inputStreamReader)) {

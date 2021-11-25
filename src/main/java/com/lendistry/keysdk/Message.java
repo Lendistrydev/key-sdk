@@ -1,13 +1,12 @@
 package com.lendistry.keysdk;
 
+import static com.lendistry.keysdk.KeySdk.dateToIsoInUtc;
+
 import com.nimbusds.jose.shaded.json.JSONObject;
 import com.nimbusds.jose.shaded.json.JSONValue;
-import org.apache.commons.codec.digest.DigestUtils;
-
 import java.util.Date;
 import java.util.Map;
-
-import static com.lendistry.keysdk.KeySdk.dateToIsoInUtc;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class Message {
 

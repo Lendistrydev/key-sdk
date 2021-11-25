@@ -65,7 +65,9 @@ public class SignatureTest {
   public void sign_whenSignJson_shouldVerifyItCorrectly() throws KeySdkException {
     String exp = KeySdk.dateToIsoInUtc(new Date());
 
-    String message = String.format("{\"message\": \"\"merchant lendistry\"\", \"exp\": \"%s\", \"int\"%d}", exp, 5);
+    String message =
+        String.format(
+            "{\"message\": \"\"merchant lendistry\"\", \"exp\": \"%s\", \"int\"%d}", exp, 5);
 
     String signature = keySdk.sign(message, keyPair.getPrivate());
 

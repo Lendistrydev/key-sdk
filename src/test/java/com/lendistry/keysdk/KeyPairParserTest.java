@@ -1,7 +1,6 @@
 package com.lendistry.keysdk;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +38,7 @@ public class KeyPairParserTest {
   @Test
   public void parsePem_withValidPublicPem_shouldParseSuccessfully() throws IOException {
     try (InputStream resourceAsStream =
-                 KeyPairParserTest.class.getClassLoader().getResourceAsStream("lendistry-public-key.pem")) {
+        KeyPairParserTest.class.getClassLoader().getResourceAsStream("lendistry-public-key.pem")) {
       PublicKey publicKey = KeyPairParser.parsePublicKeyPem(resourceAsStream);
 
       assertNotNull(publicKey);

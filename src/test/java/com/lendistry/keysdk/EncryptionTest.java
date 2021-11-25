@@ -4,13 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.shaded.json.JSONObject;
+import com.nimbusds.jose.util.JSONObjectUtils;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Date;
-
-import com.nimbusds.jose.shaded.json.JSONObject;
-import com.nimbusds.jose.util.JSONObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
