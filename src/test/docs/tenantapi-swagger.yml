@@ -59,7 +59,7 @@ paths:
           description: Forbidden (not encrypted)
         "404":
           description: Not Found (not encrypted)
-  /tenant/sbl-offer/v1/tenant/sbl-app/prequal:
+  /tenant/sbl-offer/v1/prequal:
     post:
       tags:
         - Offers
