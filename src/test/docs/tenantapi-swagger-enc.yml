@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   description: APIs used by a tenant to interact with lendistry
   version: "1.0"
-  title: API RESOURCE (ENCRYPTED)
+  title: API RESOURCES (ENCRYPTED)
   license:
     name: Tenant API
 tags:
@@ -79,6 +79,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: Lendistry-Kid
+          in: header
+          description: Lendistry-Kid published in docs (see Onboarding).
+          required: true
+          example:
+            - 0509f70a-45fd-11ec-81d3-0242ac130003
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -114,6 +122,18 @@ paths:
           description: id of an offer
           required: true
           style: simple
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: Kid
+          in: header
+          description: Kid value provided by Lendistry during Onboarding.
+          required: true
           schema:
             type: string
       responses:

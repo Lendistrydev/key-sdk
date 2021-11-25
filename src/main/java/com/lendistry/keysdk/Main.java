@@ -63,7 +63,6 @@ public class Main {
     try (InputStream inputStream = new FileInputStream(filePath)) {
       String input = IOUtils.readInputStreamToString(inputStream);
       String encrypted = keySdk.encrypt(input, publicKey);
-      System.out.println("Encrypted message:");
       System.out.println(encrypted);
     }
   }
@@ -75,7 +74,6 @@ public class Main {
       String encryptedMessage = IOUtils.readInputStreamToString(inputStream);
       KeySdk keySdk = new KeySdk();
       String decryptedMessage = keySdk.decrypt(encryptedMessage, keyPair.getPrivate());
-      System.out.println("Decrypted message:");
       System.out.println(decryptedMessage);
     }
   }
