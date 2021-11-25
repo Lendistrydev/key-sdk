@@ -13,25 +13,21 @@ public class Main {
 
   @CommandLine.Option(
       names = {"-m", "--mode"},
-      usageHelp = true,
       description = "Possible values: encrypt or decrypt")
   String mode;
 
   @CommandLine.Option(
       names = {"-f", "--file"},
-      usageHelp = true,
       description = "File to process")
   String filePath;
 
   @CommandLine.Option(
       names = {"-private", "--private-key"},
-      usageHelp = true,
       description = "Path to private key file (PEM)")
   String privateKeyPath;
 
   @CommandLine.Option(
       names = {"-public", "--public-key"},
-      usageHelp = true,
       description = "Path to public key file (PEM)")
   String publicKeyPath;
 
