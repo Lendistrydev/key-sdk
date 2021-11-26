@@ -61,6 +61,12 @@ paths:
           style: simple
           schema:
             type: string
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
