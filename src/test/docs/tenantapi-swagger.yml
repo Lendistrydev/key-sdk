@@ -17,7 +17,7 @@ paths:
       tags:
         - Application Instances
       summary: Get App Instance
-      description: Get a specific application instance by ID. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
+      description: Get a specific application instance by ID
       operationId: get-app-instances-using-GET
       parameters:
         - name: Authorization
@@ -30,20 +30,6 @@ paths:
           in: path
           description: Application instance id
           required: true
-          schema:
-            type: string
-        - name: Kid
-          in: header
-          description: Kid value provided by Lendistry during Onboarding.
-          required: true
-          schema:
-            type: string
-        - name: Lendistry-Kid
-          in: header
-          description: Lendistry-Kid published in docs (see Onboarding).
-          required: true
-          example:
-            - 0509f70a-45fd-11ec-81d3-0242ac130003
           schema:
             type: string
       responses:
@@ -64,18 +50,12 @@ paths:
       tags:
         - Offers
       summary: Pre-qualification
-      description: API that gets a pre-qualification status prior to applicant filling out their application. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
+      description: API that gets a pre-qualification status prior to applicant filling out their application
       operationId: prequalUsingPOST
       parameters:
         - name: Authorization
           in: header
           description: Bearer token, e.g. "Bearer <access_token here>"
-          required: true
-          schema:
-            type: string
-        - name: Kid
-          in: header
-          description: Kid value provided by Lendistry during Onboarding.
           required: true
           schema:
             type: string
@@ -104,7 +84,7 @@ paths:
       tags:
         - Offers
       summary: Get Offer
-      description: Gets Offer. Note - If you send/receive encrypted payload manually then send/receive it as "{'data':'encrypted string'}"
+      description: Gets Offer
       operationId: getOffer
       parameters:
         - name: id
