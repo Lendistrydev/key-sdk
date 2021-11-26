@@ -185,23 +185,32 @@ components:
       properties:
         businessLegalEntityType:
           type: string
+          required: true
         businessName:
           type: string
+          required: true
         businessPhoneNumber:
           type: string
+          required: true
         businessZipCode:
           type: string
+          required: true
         creditScoreRating:
           type: string
+          required: true
         currency:
           type: string
+          required: true
         loanAmount:
           type: number
           format: bigdecimal
+          required: true
         loanPurpose:
           type: string
+          required: true
         loanUrgency:
           type: string
+          required: true
         monthlyRevenueRange:
           $ref: '#/components/schemas/MonthlyRevenueRange'
         owners:
