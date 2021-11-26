@@ -12,53 +12,6 @@ tags:
   - name: Application
     description: APIs to work with application
 paths:
-  "/tenant/sbl-app/v1/appinstances/{id}":
-    get:
-      tags:
-        - Application Instances
-      summary: Get App Instance
-      description: Get a specific application instance by ID
-      operationId: get-app-instances-using-GET
-      parameters:
-        - name: Authorization
-          in: header
-          description: Bearer token, e.g. "Bearer <access_token here>"
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: Application instance id
-          required: true
-          schema:
-            type: string
-        - name: Kid
-          in: header
-          description: Kid value provided by Lendistry during Onboarding.
-          required: true
-          schema:
-            type: string
-        - name: Lendistry-Kid
-          in: header
-          description: Lendistry-Kid published in docs (see Onboarding).
-          required: true
-          example:
-            - 0509f70a-45fd-11ec-81d3-0242ac130003
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EncryptedDto"
-        "401":
-          description: Unauthorized (not encrypted)
-        "403":
-          description: Forbidden (not encrypted)
-        "404":
-          description: Not Found (not encrypted)
   /tenant/sbl-offer/v1/prequal:
     post:
       tags:
@@ -127,6 +80,53 @@ paths:
         - name: Authorization
           in: header
           description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: Kid
+          in: header
+          description: Kid value provided by Lendistry during Onboarding.
+          required: true
+          schema:
+            type: string
+        - name: Lendistry-Kid
+          in: header
+          description: Lendistry-Kid published in docs (see Onboarding).
+          required: true
+          example:
+            - 0509f70a-45fd-11ec-81d3-0242ac130003
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncryptedDto"
+        "401":
+          description: Unauthorized (not encrypted)
+        "403":
+          description: Forbidden (not encrypted)
+        "404":
+          description: Not Found (not encrypted)
+  "/tenant/sbl-app/v1/appinstances/{id}":
+    get:
+      tags:
+        - Application Instances
+      summary: Get App Instance
+      description: Get a specific application instance by ID
+      operationId: get-app-instances-using-GET
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Application instance id
           required: true
           schema:
             type: string
