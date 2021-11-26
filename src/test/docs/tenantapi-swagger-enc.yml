@@ -164,10 +164,11 @@ components:
   schemas:
     EncryptedDto:
       type: object
+      required:
+        - data
       properties:
         data:
           type: string
-          required: true
       title: EncryptedDto
     ErrorCode:
       title: ErrorCode
