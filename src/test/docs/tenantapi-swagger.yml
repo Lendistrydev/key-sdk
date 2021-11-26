@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   description: APIs used by a tenant to interact with lendistry
   version: "1.0"
-  title: Resources API
+  title: API RESOURCES
   license:
     name: Tenant API
 tags:
