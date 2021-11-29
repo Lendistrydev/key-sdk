@@ -40,12 +40,30 @@ paths:
                 $ref: "#/components/schemas/PreQualResponse"
         "201":
           description: Created
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "401":
           description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "403":
           description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "404":
           description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
   /tenant/sbl-offer/v1/offer/{id}:
     get:
       tags:
@@ -74,12 +92,30 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/TenantOfferResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "401":
           description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "403":
           description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "404":
           description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
   "/tenant/sbl-app/v1/appinstances/{id}":
     get:
       tags:
@@ -107,12 +143,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AppInstanceDto"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "401":
           description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "403":
           description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
         "404":
           description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
 servers:
   - url: https://{tenant}-services.lendistry-staging.net
     description: Lendistry Staging Server
@@ -332,6 +386,20 @@ components:
     ErrorCode:
       title: ErrorCode
       type: object
+    ErrorFieldInfo:
+      title: ErrorCode
+      type: object
+      properties:
+        field:
+          type: object
+        code:
+          type: object
+        message:
+          type: object
+        objectName:
+          type: object
+        rejectedValue:
+          type: object
     ErrorDTO:
       title: ErrorDTO
       type: object
@@ -339,7 +407,7 @@ components:
         code:
           $ref: '#/components/schemas/ErrorCode'
         info:
-          type: object
+          $ref: '#/components/schemas/ErrorFieldInfo'
         message:
           type: string
     ErrorResponseDTO:
