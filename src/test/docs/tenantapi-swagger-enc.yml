@@ -262,5 +262,3 @@ components:
         id:
           type: string
           format: uuid
-        stackTrace:
-          type: string
