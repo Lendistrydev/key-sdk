@@ -265,8 +265,131 @@ components:
           type: string
         creditScoreRating:
           type: string
+          enum:
+            - ABOVE_AVERAGE
+            - AVERAGE
+            - EXCELLENT
+            - POOR
         currency:
           type: string
+          enum:
+            - AED
+            - ALL
+            - AMD
+            - AOA
+            - ARS
+            - AUD
+            - AZN
+            - BAM
+            - BBD
+            - BGN
+            - BHD
+            - BMD
+            - BOB
+            - BRL
+            - BWP
+            - BYN
+            - CAD
+            - CDF
+            - CHF
+            - CLP
+            - CNY
+            - COP
+            - CRC
+            - CVE
+            - CZK
+            - DKK
+            - DOP
+            - DZD
+            - EGP
+            - EUR
+            - FJD
+            - GBP
+            - GEL
+            - GHS
+            - GIP
+            - GTQ
+            - GYD
+            - HKD
+            - HNL
+            - HRK
+            - HUF
+            - IDR
+            - ILS
+            - IMP
+            - INR
+            - IQD
+            - ISK
+            - JMD
+            - JOD
+            - JPY
+            - KES
+            - KGS
+            - KHR
+            - KRW
+            - KWD
+            - KYD
+            - KZT
+            - LAK
+            - LBP
+            - LKR
+            - LYD
+            - MAD
+            - MDL
+            - MGA
+            - MKD
+            - MMK
+            - MNT
+            - MOP
+            - MRU
+            - MUR
+            - MVR
+            - MWK
+            - MXN
+            - MYR
+            - MZN
+            - NAD
+            - NGN
+            - NIO
+            - NOK
+            - NZD
+            - OMR
+            - PEN
+            - PGK
+            - PHP
+            - PKR
+            - PLN
+            - PYG
+            - QAR
+            - RON
+            - RSD
+            - RUB
+            - RWF
+            - SAR
+            - SEK
+            - SGD
+            - SZL
+            - THB
+            - TJS
+            - TMT
+            - TND
+            - TRY
+            - TTD
+            - TWD
+            - TZS
+            - UAH
+            - UGX
+            - USD
+            - UYU
+            - UZS
+            - VEF
+            - VND
+            - XAF
+            - XCD
+            - XOF
+            - ZAR
+            - ZMW
+            - ZWD
         loanAmount:
           type: number
           format: bigdecimal
@@ -338,6 +461,9 @@ components:
             $ref: '#/components/schemas/LoanOffer'
         qualificationDecision:
           type: string
+          enum:
+            - APPROVED
+            - DECLINED
     LoanOffer:
       title: LoanOffer
       type: object
