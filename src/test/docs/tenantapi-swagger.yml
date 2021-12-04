@@ -493,6 +493,11 @@ components:
           type: string
         termUnit:
           type: string
+        rateUnit:
+          type: string
+        monthlyPayment:
+          type: number
+          format: bigdecimal
     MonthlyRevenueRange:
       title: MonthlyRevenueRange
       type: object
