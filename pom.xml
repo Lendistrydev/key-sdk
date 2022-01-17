@@ -8,8 +8,34 @@
 
     <groupId>com.lendistry</groupId>
     <artifactId>key-sdk</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>key-sdk</name>
+
+    <description>Lendistry Key SDK</description>
+    <url>https://github.com/Lendistrydev/key-sdk</url>
+
+    <developers>
+        <developer>
+            <name>Mallik Hiremath</name>
+            <email>mallik.hiremath@lendistry.com</email>
+            <organization>Lendistry</organization>
+            <organizationUrl>https://github.com/Lendistrydev/key-sdk</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://github.com/Lendistrydev/key-sdk/blob/main/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/Lendistrydev/key-sdk.git</connection>
+        <developerConnection>scm:git:ssh://github.com/Lendistrydev/key-sdk.git</developerConnection>
+        <url>https://github.com/Lendistrydev/key-sdk</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -51,6 +77,14 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>./</directory>
+                <includes>
+                    <include>**/LICENSE</include>
+                </includes>
+            </resource>
+        </resources>
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
