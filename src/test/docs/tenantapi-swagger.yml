@@ -116,6 +116,59 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponseDTO"
+  /tenant/sbl-offer/v2/offer/{id}:
+    get:
+      tags:
+        - Offers
+      summary: Get Offer V2
+      description: Gets Offer V2
+      operationId: getOfferV2
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of an offer
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TenantOfferResponseV2'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "401":
+          description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "403":
+          description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "404":
+          description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+
   "/tenant/sbl-app/v1/appinstances/{id}":
     get:
       tags:
@@ -172,6 +225,98 @@ servers:
     description: Lendistry Staging Server
 components:
   schemas:
+    TenantOfferResponseV2:
+      title: TenantOfferResponseV2
+      type: object
+      properties:
+        offerId:
+          type: string
+        partnerName:
+          type: string
+        applicationInstanceId:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        partnerOfferData:
+          type: object
+        productCode:
+          type: string
+        tenantLoanId:
+          type: string
+        applyUrl:
+          type: string
+          description: apply url with signature parameter which can be used to validate url
+        applicationDetails:
+          $ref: "#/components/schemas/ApplicationDetails"
+        loanDetails:
+          $ref: "#/components/schemas/LoanDetails"
+    LoanDetails:
+      title: LoanDetails
+      type: object
+      properties:
+        availableToWithdraw:
+          type: number
+          format: bigdecimal
+        availableToDraw:
+          type: number
+          format: bigdecimal
+        creditLimit:
+          type: number
+          format: bigdecimal
+        balance:
+          type: number
+          format: bigdecimal
+        amountDrawnDown:
+          type: number
+          format: bigdecimal
+        effectiveBalanceDate:
+          type: string
+    ApplicationDetails:
+      title: ApplicationDetails
+      type: object
+      properties:
+        companyName:
+          type: string
+        dbaName:
+          type: string
+        status:
+          type: string
+          enum:
+            - AUTOMATED_REVIEW_ADDITIONAL_DOCS_REQUIRED
+            - AUTOMATED_REVIEW_APPROVED
+            - AUTOMATED_REVIEW_DECLINED
+            - AUTOMATED_REVIEW_INPROGRESS
+            - AWAITING_ADDITIONAL_SYSTEM_DATA
+            - BORROWER_ABANDONED
+            - BORROWER_AGREEMENT_ACCEPTED
+            - BORROWER_CHANGES_REQUIRED
+            - BORROWER_SUBMITTED
+            - CLOSED
+            - CREATED
+            - INPROGRESS
+            - MANUAL_REVIEW_APPROVED
+            - MANUAL_REVIEW_APPROVED_WAITLISTED
+            - MANUAL_REVIEW_DECLINED
+            - MANUAL_REVIEW_DOCS_REQUIRED
+            - MANUAL_REVIEW_DOCS_REQUIRED_SALES
+            - MANUAL_REVIEW_REQUIRED
+            - MANUAL_REVIEW_REQUIRED_SALES
+            - PENDING_SELECTION
+            - PENDING_SELECTION_DOCS_REQUIRED
+            - SUSPENSE
+        applicants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Applicant'
+    Applicant:
+      title: Applicant
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string
     TenantOfferResponse:
       title: TenantOfferResponse
       type: object
