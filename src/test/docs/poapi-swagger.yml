@@ -26,6 +26,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: tenantId
+          in: path
+          description: tenant value provided by lendistry team
+          required: true
+          style: simple
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -78,6 +85,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: tenantId
+          in: path
+          description: tenant value provided by lendistry team
+          required: true
+          style: simple
+          schema:
+            type: string
         - name: id
           in: path
           description: id of an offer
@@ -128,6 +142,13 @@ paths:
           in: header
           description: Bearer token, e.g. "Bearer <access_token here>"
           required: true
+          schema:
+            type: string
+        - name: tenantId
+          in: path
+          description: tenant value provided by lendistry team
+          required: true
+          style: simple
           schema:
             type: string
         - name: id
