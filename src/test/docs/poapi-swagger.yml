@@ -1,0 +1,699 @@
+openapi: 3.0.0
+info:
+  description: APIs used by partner office to interact with lendistry
+  version: "1.0"
+  title: API RESOURCES
+  license:
+    name: Partner Office API
+tags:
+  - name: Pre-Qualification API
+    description: API to get a approximate qualification decision before filling out the
+      application
+  - name: Application
+    description: APIs to work with application
+paths:
+  /partner-office/sbl-offer/v1/prequal/{tenantId}:
+    post:
+      tags:
+        - Offers
+      summary: Pre-qualification
+      description: API that gets a pre-qualification status prior to applicant filling out their application
+      operationId: prequalUsingPOST
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PreQualRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PreQualResponse"
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "401":
+          description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "403":
+          description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "404":
+          description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+  /partner-office/sbl-offer/v1/offer/{tenantId}/{id}:
+    get:
+      tags:
+        - Offers
+      summary: Get Offer
+      description: Gets Offer
+      operationId: getOffer
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of an offer
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TenantOfferResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "401":
+          description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "403":
+          description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "404":
+          description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+  /partner-office/sbl-offer/v2/offer/{tenantId}/{id}:
+    get:
+      tags:
+        - Offers
+      summary: Get Offer V2
+      description: Gets Offer V2
+      operationId: getOfferV2
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of an offer
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TenantOfferResponseV2'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "401":
+          description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "403":
+          description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "404":
+          description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+
+  "/partner-office/sbl-app/v1/appinstances/{tenantId}/{id}":
+    get:
+      tags:
+        - Application Instances
+      summary: Get App Instance
+      description: Get a specific application instance by ID
+      operationId: get-app-instances-using-GET
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Application instance id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppInstanceDto"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "401":
+          description: Unauthorized (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "403":
+          description: Forbidden (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+        "404":
+          description: Not Found (not encrypted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseDTO"
+servers:
+  - url: https://services-stg.lendistry-staging.net
+    description: Lendistry Staging Server
+components:
+  schemas:
+    TenantOfferResponseV2:
+      title: TenantOfferResponseV2
+      type: object
+      properties:
+        offerId:
+          type: string
+        partnerName:
+          type: string
+        applicationInstanceId:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        partnerOfferData:
+          type: object
+        productCode:
+          type: string
+        tenantLoanId:
+          type: string
+        applyUrl:
+          type: string
+          description: apply url with signature parameter which can be used to validate url
+        applicationDetails:
+          $ref: "#/components/schemas/ApplicationDetails"
+        loanDetails:
+          $ref: "#/components/schemas/LoanDetails"
+    LoanDetails:
+      title: LoanDetails
+      type: object
+      properties:
+        availableToWithdraw:
+          type: number
+          format: bigdecimal
+        availableToDraw:
+          type: number
+          format: bigdecimal
+        creditLimit:
+          type: number
+          format: bigdecimal
+        balance:
+          type: number
+          format: bigdecimal
+        amountDrawnDown:
+          type: number
+          format: bigdecimal
+        effectiveBalanceDate:
+          type: string
+    ApplicationDetails:
+      title: ApplicationDetails
+      type: object
+      properties:
+        companyName:
+          type: string
+        dbaName:
+          type: string
+        status:
+          type: string
+          enum:
+            - AUTOMATED_REVIEW_ADDITIONAL_DOCS_REQUIRED
+            - AUTOMATED_REVIEW_APPROVED
+            - AUTOMATED_REVIEW_DECLINED
+            - AUTOMATED_REVIEW_INPROGRESS
+            - AWAITING_ADDITIONAL_SYSTEM_DATA
+            - BORROWER_ABANDONED
+            - BORROWER_AGREEMENT_ACCEPTED
+            - BORROWER_CHANGES_REQUIRED
+            - BORROWER_SUBMITTED
+            - CLOSED
+            - CREATED
+            - INPROGRESS
+            - MANUAL_REVIEW_APPROVED
+            - MANUAL_REVIEW_APPROVED_WAITLISTED
+            - MANUAL_REVIEW_DECLINED
+            - MANUAL_REVIEW_DOCS_REQUIRED
+            - MANUAL_REVIEW_DOCS_REQUIRED_SALES
+            - MANUAL_REVIEW_REQUIRED
+            - MANUAL_REVIEW_REQUIRED_SALES
+            - PENDING_SELECTION
+            - PENDING_SELECTION_DOCS_REQUIRED
+            - SUSPENSE
+        applicants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Applicant'
+    Applicant:
+      title: Applicant
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string
+    TenantOfferResponse:
+      title: TenantOfferResponse
+      type: object
+      properties:
+        applicationInstanceId:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        offerId:
+          type: string
+        partnerName:
+          type: string
+        partnerOfferData:
+          type: object
+        productCode:
+          type: string
+        tenantLoanId:
+          type: string
+        applyUrl:
+          type: string
+          description: apply url with signature parameter which can be used to validate url
+    TenantOffer:
+      title: TenantOffer
+      type: object
+      properties:
+        applicationId:
+          type: string
+        applicationInstanceId:
+          type: string
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        id:
+          type: string
+        partnerName:
+          type: string
+        partnerOfferData:
+          type: object
+        partnerOfferId:
+          type: string
+        productCode:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        tenantId:
+          type: string
+        tenantLoanId:
+          type: string
+        updateDate:
+          type: string
+          format: date-time
+        updateReason:
+          type: string
+        updatedBy:
+          type: string
+        user:
+          type: string
+        version:
+          type: integer
+          format: int32
+    PreQualRequest:
+      title: PreQualRequest
+      type: object
+      required:
+        - businessLegalEntityType
+        - businessName
+        - businessPhoneNumber
+        - businessZipCode
+        - creditScoreRating
+        - currency
+        - loanAmount
+        - loanPurpose
+        - loanUrgency
+        - monthlyRevenueRange
+        - owners
+      properties:
+        businessLegalEntityType:
+          type: string
+        businessName:
+          type: string
+        businessPhoneNumber:
+          type: string
+        businessZipCode:
+          type: string
+        creditScoreRating:
+          type: string
+          enum:
+            - ABOVE_AVERAGE
+            - AVERAGE
+            - EXCELLENT
+            - POOR
+        currency:
+          type: string
+          enum:
+            - AED
+            - ALL
+            - AMD
+            - AOA
+            - ARS
+            - AUD
+            - AZN
+            - BAM
+            - BBD
+            - BGN
+            - BHD
+            - BMD
+            - BOB
+            - BRL
+            - BWP
+            - BYN
+            - CAD
+            - CDF
+            - CHF
+            - CLP
+            - CNY
+            - COP
+            - CRC
+            - CVE
+            - CZK
+            - DKK
+            - DOP
+            - DZD
+            - EGP
+            - EUR
+            - FJD
+            - GBP
+            - GEL
+            - GHS
+            - GIP
+            - GTQ
+            - GYD
+            - HKD
+            - HNL
+            - HRK
+            - HUF
+            - IDR
+            - ILS
+            - IMP
+            - INR
+            - IQD
+            - ISK
+            - JMD
+            - JOD
+            - JPY
+            - KES
+            - KGS
+            - KHR
+            - KRW
+            - KWD
+            - KYD
+            - KZT
+            - LAK
+            - LBP
+            - LKR
+            - LYD
+            - MAD
+            - MDL
+            - MGA
+            - MKD
+            - MMK
+            - MNT
+            - MOP
+            - MRU
+            - MUR
+            - MVR
+            - MWK
+            - MXN
+            - MYR
+            - MZN
+            - NAD
+            - NGN
+            - NIO
+            - NOK
+            - NZD
+            - OMR
+            - PEN
+            - PGK
+            - PHP
+            - PKR
+            - PLN
+            - PYG
+            - QAR
+            - RON
+            - RSD
+            - RUB
+            - RWF
+            - SAR
+            - SEK
+            - SGD
+            - SZL
+            - THB
+            - TJS
+            - TMT
+            - TND
+            - TRY
+            - TTD
+            - TWD
+            - TZS
+            - UAH
+            - UGX
+            - USD
+            - UYU
+            - UZS
+            - VEF
+            - VND
+            - XAF
+            - XCD
+            - XOF
+            - ZAR
+            - ZMW
+            - ZWD
+        loanAmount:
+          type: number
+          format: bigdecimal
+        loanPurpose:
+          type: string
+        loanUrgency:
+          type: string
+        monthlyRevenueRange:
+          $ref: '#/components/schemas/MonthlyRevenueRange'
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+        meta:
+          type: object
+          additionalProperties: true
+          description: meta is free-form object and can contain nested objects with key of type string and value of arbitrary shape
+    AppInstanceDto:
+      title: AppInstanceDto
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - AUTOMATED_REVIEW_ADDITIONAL_DOCS_REQUIRED
+            - AUTOMATED_REVIEW_APPROVED
+            - AUTOMATED_REVIEW_DECLINED
+            - AUTOMATED_REVIEW_INPROGRESS
+            - AWAITING_ADDITIONAL_SYSTEM_DATA
+            - BORROWER_ABANDONED
+            - BORROWER_AGREEMENT_ACCEPTED
+            - BORROWER_CHANGES_REQUIRED
+            - BORROWER_SUBMITTED
+            - CLOSED
+            - CREATED
+            - INPROGRESS
+            - MANUAL_REVIEW_APPROVED
+            - MANUAL_REVIEW_APPROVED_WAITLISTED
+            - MANUAL_REVIEW_DECLINED
+            - MANUAL_REVIEW_DOCS_REQUIRED
+            - MANUAL_REVIEW_DOCS_REQUIRED_SALES
+            - MANUAL_REVIEW_REQUIRED
+            - MANUAL_REVIEW_REQUIRED_SALES
+            - PENDING_SELECTION
+            - PENDING_SELECTION_DOCS_REQUIRED
+            - SUSPENSE
+        updated_at:
+          type: string
+          format: date-time
+    Owner:
+      title: Owner
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    PreQualResponse:
+      title: PreQualResponse
+      type: object
+      properties:
+        loanOffer:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanOffer'
+        qualificationDecision:
+          type: string
+          enum:
+            - APPROVED
+            - DECLINED
+    LoanOffer:
+      title: LoanOffer
+      type: object
+      properties:
+        loanFee:
+          type: string
+        loanFeeUnit:
+          type: string
+        loanTerm:
+          type: integer
+          format: int32
+        maxLoanAmount:
+          type: number
+          format: bigdecimal
+        maxRate:
+          type: number
+          format: bigdecimal
+        minLoanAmount:
+          type: number
+          format: bigdecimal
+        minRate:
+          type: number
+          format: bigdecimal
+        offerId:
+          type: string
+        productCode:
+          type: string
+        termUnit:
+          type: string
+        rateUnit:
+          type: string
+        monthlyPayment:
+          type: number
+          format: bigdecimal
+    MonthlyRevenueRange:
+      title: MonthlyRevenueRange
+      type: object
+      properties:
+        max:
+          type: number
+          format: bigdecimal
+        min:
+          type: number
+          format: bigdecimal
+    EncryptedDto:
+      type: object
+      properties:
+        data:
+          type: string
+      title: EncryptedDto
+    ErrorCode:
+      title: ErrorCode
+      type: object
+    ErrorFieldInfo:
+      title: ErrorCode
+      type: object
+      properties:
+        field:
+          type: object
+        code:
+          type: object
+        message:
+          type: object
+        objectName:
+          type: object
+        rejectedValue:
+          type: object
+    ErrorDTO:
+      title: ErrorDTO
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        info:
+          $ref: '#/components/schemas/ErrorFieldInfo'
+        message:
+          type: string
+    ErrorResponseDTO:
+      title: ErrorResponseDTO
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDTO'
+        id:
+          type: string
+          format: uuid
