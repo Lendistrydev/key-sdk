@@ -20,14 +20,6 @@ paths:
       summary: OpenID Connect Discovery
       description: Defines how clients dynamically discover information about OpenID Provider
       operationId: configurationUsingGET
-      parameters:
-        - name: tenant
-          in: path
-          description: tenant value provided by lendistry team
-          required: true
-          style: simple
-          schema:
-            type: string
       responses:
         '200':
           description: OK
@@ -48,14 +40,6 @@ paths:
       summary: OpenID Connect JWKS
       description: OpenID Connect Provider's JSON Web Key Set document published according to Connect specs.
       operationId: certsUsingGET
-      parameters:
-        - name: tenant
-          in: path
-          description: tenant value provided by lendistry team
-          required: true
-          style: simple
-          schema:
-            type: string
       responses:
         '200':
           description: OK
@@ -76,14 +60,6 @@ paths:
       summary: Obtain Token
       operationId: tokenUsingPOST
       description: The token endpoint is used by the client to obtain an access token by presenting its authorization grant or refresh token.
-      parameters:
-        - name: tenant
-          in: path
-          description: tenant value provided by lendistry team
-          required: true
-          style: simple
-          schema:
-            type: string
       requestBody:
         content:
           application/x-www-form-urlencoded:
