@@ -204,6 +204,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: tenantId
+          in: path
+          description: tenant value provided by lendistry team
+          required: true
+          style: simple
+          schema:
+            type: string
         - name: id
           in: path
           description: Application instance id
