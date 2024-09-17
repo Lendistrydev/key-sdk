@@ -12,7 +12,7 @@ tags:
   - name: Application
     description: APIs to work with application
 paths:
-  /partner-office/sbl-offer/v1/prequal/{tenantId}:
+  /partner/sbl-offer/v1/prequal/{tenantId}:
     post:
       tags:
         - Offers
@@ -71,7 +71,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponseDTO"
-  /partner-office/sbl-offer/v1/offer/{tenantId}/{id}:
+  /partner/sbl-offer/v1/offer/{tenantId}/{id}:
     get:
       tags:
         - Offers
@@ -130,7 +130,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponseDTO"
-  /partner-office/sbl-offer/v2/offer/{tenantId}/{id}:
+  /partner/sbl-offer/v2/offer/{tenantId}/{id}:
     get:
       tags:
         - Offers
@@ -190,7 +190,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponseDTO"
 
-  "/partner-office/sbl-app/v1/appinstances/{tenantId}/{id}":
+  "/partner/sbl-app/v1/appinstances/{tenantId}/{id}":
     get:
       tags:
         - Application Instances
