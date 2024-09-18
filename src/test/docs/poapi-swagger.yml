@@ -248,9 +248,96 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponseDTO"
+
+/partner/sbl-offer/v1/loans/smbcontractor:
+    get:
+      summary: Get SMB Contractor Loans
+      description: Retrieve loan information for SMB contractors.
+      parameters:
+        - name: grant_type
+          in: query
+          required: true
+          description: The type of grant being requested.
+          schema:
+            type: string
+            example: refresh_token
+        - name: refresh_token
+          in: query
+          required: true
+          description: The refresh token for the request.
+          schema:
+            type: string
+            example: eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmNTk2NmRmNC0yNGM2LTQxMjktODY4Ni02YTFjOTk1M2Y3NDEifQ...
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # Define the properties of the response here
+                  # Example:
+                  status:
+                    type: string
+                    example: success
+        '401':
+          description: Unauthorized
+        '400':
+          description: Bad Request
+      security:
+        - bearerAuth: []
+   /partner/sbl-offer/v1/loans/smbcontractor:
+    get:
+      summary: Get SMB Contractor Loans
+      description: Retrieve loan information for SMB contractors.
+      parameters:
+        - name: grant_type
+          in: query
+          required: true
+          description: The type of grant being requested.
+          schema:
+            type: string
+            example: refresh_token
+        - name: refresh_token
+          in: query
+          required: true
+          description: The refresh token for the request.
+          schema:
+            type: string
+            example: eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmNTk2NmRmNC0yNGM2LTQxMjktODY4Ni02YTFjOTk1M2Y3NDEifQ...
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 0
+                  pages:
+                    type: integer
+                    example: 0
+                  currentPage:
+                    type: integer
+                    example: 0
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        # Define the properties of each item in the data array if applicable
+        '401':
+          description: Unauthorized
+        '400':
+          description: Bad Request
+      security:
+        - bearerAuth: []
 servers:
-  - url: https://services-stg.lendistry-staging.net
-    description: Lendistry Staging Server
+  - url: https://services.mylendistry.com
+    description: Lendistry Prod Server
 components:
   schemas:
     TenantOfferResponseV2:
