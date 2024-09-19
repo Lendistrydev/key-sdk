@@ -2,22 +2,82 @@ openapi: 3.0.0
 info:
   description: APIs used by partner office to interact with lendistry
   version: "1.0"
-  title: API RESOURCES
+  title: Partner API Resources
   license:
     name: Partner Office API
 tags:
   - name: Pre-Qualification API
-    description: API to get a approximate qualification decision before filling out the
+    description:
+      API to get a approximate qualification decision before filling out the
       application
   - name: Application
     description: APIs to work with application
 paths:
+  /realms/partner-office/protocol/openid-connect/token:
+    post:
+      tags:
+        - Authentication
+      summary: Obtain Bearer or Refresh Token
+      operationId: tokenUsingPOST
+      description: |-
+        This endpoint allows Lendistry's partners to obtain both an access token (Bearer token) and a refresh token, depending on the `grant_type` used.
+
+        - **To obtain a Bearer token:** Set `grant_type` to `password` and provide the encrypted username and password that Lendistry provided during onboarding.
+        - **To obtain a new access token using a refresh token:** Set `grant_type` to `refresh_token` and provide the refresh token that was previously issued.
+
+        Both the access token and the refresh token are used for authenticating future API calls.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - grant_type
+              properties:
+                grant_type:
+                  type: string
+                  description: Provides the OAuth 2.0 grant type.
+                  enum:
+                    - password
+                    - refresh_token
+                  default: password
+                username:
+                  type: string
+                  description: API Username received during Onboarding (required if `grant_type` is `password`)
+                password:
+                  type: string
+                  description: API Password received during Onboarding (required if `grant_type` is `password`)
+                refresh_token:
+                  type: string
+                  description: Refresh Token received during authentication (required if `grant_type` is `refresh_token`)
+      responses:
+        "200":
+          description: Successful response containing access token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenResponseDTO"
+        "201":
+          description: Created
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+
   /partner/sbl-offer/v1/prequal/{tenantId}:
     post:
       tags:
         - Offers
-      summary: Pre-qualification
-      description: API that gets a pre-qualification status prior to applicant filling out their application
+      summary: Prequalify a Client for an Offer
+      description: |-
+        This API retrieves the pre-qualification status of a customer based on information submitted by the partner before the customer fills out their application.
+
+        You must include:
+        - The access token, obtained from the `/realms/partner-office/protocol/openid-connect/token` endpoint.
+        - The Bearer token in the `Authorization` header for this request.
+
       operationId: prequalUsingPOST
       parameters:
         - name: Authorization
@@ -42,7 +102,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 $ref: "#/components/schemas/PreQualResponse"
         "201":
@@ -71,71 +131,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponseDTO"
-  /partner/sbl-offer/v1/offer/{tenantId}/{id}:
-    get:
-      tags:
-        - Offers
-      summary: Get Offer
-      description: Gets Offer
-      operationId: getOffer
-      parameters:
-        - name: Authorization
-          in: header
-          description: Bearer token, e.g. "Bearer <access_token here>"
-          required: true
-          schema:
-            type: string
-        - name: tenantId
-          in: path
-          description: tenant value provided by lendistry team
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: id of an offer
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/TenantOfferResponse'
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponseDTO"
-        "401":
-          description: Unauthorized (not encrypted)
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponseDTO"
-        "403":
-          description: Forbidden (not encrypted)
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponseDTO"
-        "404":
-          description: Not Found (not encrypted)
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponseDTO"
+
   /partner/sbl-offer/v2/offer/{tenantId}/{id}:
     get:
       tags:
         - Offers
-      summary: Get Offer V2
-      description: Gets Offer V2
+      summary: Get Offer Details
+      description: |-
+        Retrieve the details of a specific offer using the tenant ID and the offer ID.
+
+        You must include:
+        - The `offerId` from the `/partner/sbl-offer/v1/prequal/{tenantId}` prequalification call.
+        - The Bearer token, obtained from the `/realms/partner-office/protocol/openid-connect/token` endpoint, in the `Authorization` header.
+
       operationId: getOfferV2
       parameters:
         - name: Authorization
@@ -159,12 +167,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/TenantOfferResponseV2'
+                $ref: "#/components/schemas/TenantOfferResponseV2"
         "400":
           description: Bad Request
           content:
@@ -194,8 +202,14 @@ paths:
     get:
       tags:
         - Application Instances
-      summary: Get App Instance
-      description: Get a specific application instance by ID
+      summary: Get Application Details
+      description: |-
+        Retrieve the application details using the tenant ID and the application instance ID.
+
+        You must include:
+        - The `application instance ID`, which must be obtained from the `/partner/sbl-offer/v2/offer/{tenantId}/{id}` offer details call.
+        - The Bearer token, obtained from the `/realms/partner-office/protocol/openid-connect/token` endpoint, in the `Authorization` header.
+
       operationId: get-app-instances-using-GET
       parameters:
         - name: Authorization
@@ -251,8 +265,15 @@ paths:
 
   /partner/sbl-offer/v1/loans/smbcontractor:
     get:
-      summary: Get SMB Contractor Loans
-      description: Retrieve loan information for SMB contractors.
+      summary: Get All Loans
+      description: |-
+        Retrieve all loans created under the current partner.
+
+        You must provide:
+        - A valid Bearer token in the `Authorization` header (e.g., "Bearer <access_token>").
+
+        The token should be obtained from the `/realms/partner-office/protocol/openid-connect/token` endpoint.
+
       parameters:
         - name: Authorization
           in: header
@@ -261,7 +282,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
@@ -271,9 +292,9 @@ paths:
                   status:
                     type: string
                     example: success
-        '401':
+        "401":
           description: Unauthorized
-        '400':
+        "400":
           description: Bad Request
       security:
         - bearerAuth: []
@@ -282,8 +303,15 @@ paths:
 
   /partner/sbl-offer/v1/loans/smbcontractor/customer/{customerId}:
     get:
-      summary: Get Loan Details
-      description: Retrieve loan information for a specific SMB contractor customer.
+      summary: Get Specific Customer Loan Information
+      description: |-
+        Retrieve loan information for a specific customer using their customer ID.
+
+        You must provide:
+        - A valid Bearer token in the `Authorization` header (e.g., "Bearer <access_token>").
+
+        The customer ID is required as a path parameter to specify which customer's loan details to retrieve.
+
       operationId: getLoanDetails
       parameters:
         - name: Authorization
@@ -299,7 +327,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response with loan details.
           content:
             application/json:
@@ -313,9 +341,9 @@ paths:
                     format: double
                   status:
                     type: string
-        '401':
+        "401":
           description: Unauthorized - Invalid token
-        '404':
+        "404":
           description: Customer not found
       security:
         - bearerAuth: []
@@ -326,6 +354,11 @@ servers:
   - url: https://services.mylendistry.com
     description: Lendistry Prod Server
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     TenantOfferResponseV2:
       title: TenantOfferResponseV2
@@ -410,7 +443,7 @@ components:
         applicants:
           type: array
           items:
-            $ref: '#/components/schemas/Applicant'
+            $ref: "#/components/schemas/Applicant"
     Applicant:
       title: Applicant
       type: object
@@ -501,6 +534,7 @@ components:
         - loanUrgency
         - monthlyRevenueRange
         - owners
+        - productCode
       properties:
         businessLegalEntityType:
           type: string
@@ -520,6 +554,7 @@ components:
         currency:
           type: string
           enum:
+            - USD
             - AED
             - ALL
             - AMD
@@ -626,7 +661,6 @@ components:
             - TZS
             - UAH
             - UGX
-            - USD
             - UYU
             - UZS
             - VEF
@@ -645,15 +679,18 @@ components:
         loanUrgency:
           type: string
         monthlyRevenueRange:
-          $ref: '#/components/schemas/MonthlyRevenueRange'
+          $ref: "#/components/schemas/MonthlyRevenueRange"
         owners:
           type: array
           items:
-            $ref: '#/components/schemas/Owner'
+            $ref: "#/components/schemas/Owner"
         meta:
           type: object
           additionalProperties: true
           description: meta is free-form object and can contain nested objects with key of type string and value of arbitrary shape
+        productCode:
+          type: string
+          description: Product Code  value provided by lendistry team
     AppInstanceDto:
       title: AppInstanceDto
       type: object
@@ -705,7 +742,7 @@ components:
         loanOffer:
           type: array
           items:
-            $ref: '#/components/schemas/LoanOffer'
+            $ref: "#/components/schemas/LoanOffer"
         qualificationDecision:
           type: string
           enum:
@@ -783,9 +820,9 @@ components:
       type: object
       properties:
         code:
-          $ref: '#/components/schemas/ErrorCode'
+          $ref: "#/components/schemas/ErrorCode"
         info:
-          $ref: '#/components/schemas/ErrorFieldInfo'
+          $ref: "#/components/schemas/ErrorFieldInfo"
         message:
           type: string
     ErrorResponseDTO:
@@ -795,7 +832,24 @@ components:
         errors:
           type: array
           items:
-            $ref: '#/components/schemas/ErrorDTO'
+            $ref: "#/components/schemas/ErrorDTO"
         id:
           type: string
           format: uuid
+    TokenResponseDTO:
+      title: TokenResponseDTO
+      description: Token Reponse which provides Access Token, Refresh Token and expiration information.
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+          format: int32
+        refresh_expires_in:
+          type: integer
+          format: int32
+        refresh_token:
+          type: string
+        token_type:
+          type: string
