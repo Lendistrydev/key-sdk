@@ -249,7 +249,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponseDTO"
 
-/partner/sbl-offer/v1/loans/smbcontractor:
+  /partner/sbl-offer/v1/loans/smbcontractor:
     get:
       summary: Get SMB Contractor Loans
       description: Retrieve loan information for SMB contractors.
