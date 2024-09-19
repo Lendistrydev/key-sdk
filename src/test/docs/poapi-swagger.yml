@@ -287,6 +287,8 @@ paths:
           description: Bad Request
       security:
         - bearerAuth: []
+      tags:
+        - Loans
   /loans/smbcontractor/customer/{customerId}:
     get:
       summary: Get Loan Details
