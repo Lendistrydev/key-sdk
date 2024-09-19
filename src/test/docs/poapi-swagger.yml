@@ -254,20 +254,12 @@ paths:
       summary: Get SMB Contractor Loans
       description: Retrieve loan information for SMB contractors.
       parameters:
-        - name: grant_type
-          in: query
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
           required: true
-          description: The type of grant being requested.
           schema:
             type: string
-            example: refresh_token
-        - name: refresh_token
-          in: query
-          required: true
-          description: The refresh token for the request.
-          schema:
-            type: string
-            example: eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmNTk2NmRmNC0yNGM2LTQxMjktODY4Ni02YTFjOTk1M2Y3NDEifQ...
       responses:
         '200':
           description: Successful response
@@ -276,8 +268,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  # Define the properties of the response here
-                  # Example:
                   status:
                     type: string
                     example: success
@@ -289,12 +279,19 @@ paths:
         - bearerAuth: []
       tags:
         - Loans
-  /loans/smbcontractor/customer/{customerId}:
+
+  /partner/sbl-offer/v1/loans/smbcontractor/customer/{customerId}:
     get:
       summary: Get Loan Details
       description: Retrieve loan information for a specific SMB contractor customer.
       operationId: getLoanDetails
       parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token, e.g. "Bearer <access_token here>"
+          required: true
+          schema:
+            type: string
         - name: customerId
           in: path
           required: true
@@ -324,7 +321,7 @@ paths:
         - bearerAuth: []
       tags:
         - Loans
-   
+
 servers:
   - url: https://services.mylendistry.com
     description: Lendistry Prod Server
